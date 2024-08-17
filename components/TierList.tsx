@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { ItemType } from '@/types';
 import TierListBox from './TierListBox';
 
-export default function TierList() {
+export default function TierList({ tierListId }: { tierListId: string }) {
+  const [tierListTitle, setTierListTitle] = useState<string>(
+    'Gravity Falls Characters Tier List'
+  );
+  
   const [s, setS] = useState<ItemType[]>([]);
   const [a, setA] = useState<ItemType[]>([]);
   const [b, setB] = useState<ItemType[]>([]);
@@ -35,6 +39,7 @@ export default function TierList() {
 
   return (
     <>
+      <h1 className="mb-8 font-bold text-4xl">{tierListTitle}</h1>
       <TierListBox items={s} setItems={setS} tier="S" color="#ff7f7f" />
       <TierListBox items={a} setItems={setA} tier="A" color="#ffbf7f" />
       <TierListBox items={b} setItems={setB} tier="B" color="#ffdf7f" />
