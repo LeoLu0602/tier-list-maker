@@ -22,7 +22,7 @@ export default function TierListBox({
     >
       {tier !== 'not-rated' && (
         <div
-          className="flex justify-center items-center w-20 absolute left-0 top-0 h-full"
+          className="flex justify-center items-center w-20 absolute left-0 top-0 h-full text-black"
           style={{ backgroundColor: color }}
         >
           {tier}
@@ -30,7 +30,7 @@ export default function TierListBox({
       )}
       <ReactSortable
         className={clsx('flex flex-wrap min-h-20 box-border', {
-          ' bg-[#1a1a17]': tier !== 'not-rated',
+          'bg-[#1a1a17]': tier !== 'not-rated',
         })}
         list={items}
         setList={setItems}
