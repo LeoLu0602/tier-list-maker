@@ -8,7 +8,7 @@ export default function TierList({ tierListId }: { tierListId: string }) {
   const [tierListTitle, setTierListTitle] = useState<string>(
     'Gravity Falls Characters Tier List'
   );
-  
+
   const [s, setS] = useState<ItemType[]>([]);
   const [a, setA] = useState<ItemType[]>([]);
   const [b, setB] = useState<ItemType[]>([]);
