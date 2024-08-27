@@ -8,16 +8,9 @@ import {
   useEffect,
   useReducer,
 } from 'react';
+import { User } from '@supabase/supabase-js';
 import { retrieveUser } from '@/app/lib/auth';
-
-interface AuthType {
-  userId: string;
-}
-
-interface ActionType {
-  type: string;
-  newAuth?: AuthType;
-}
+import { ActionType, AuthType } from '@/type';
 
 const AuthContext: Context<AuthType | null> = createContext<AuthType | null>(
   null
@@ -33,12 +26,29 @@ export function AuthProvider({
   const [auth, dispatch] = useReducer(authReducer, null);
 
   useEffect(() => {
-    async function setUp() {
-      const { data } = await retrieveUser();
+    async function setUp(): Promise<void> {
+      const {
+        data,
+      }: {
+        data:
+          | {
+              user: User;
+            }
+          | {
+              user: null;
+            };
+      } = await retrieveUser();
 
       // user is logged in
       if (data.user) {
-        dispatch({ type: 'sign-in', newAuth: { userId: data.user.id } });
+        dispatch({
+          type: 'sign-in',
+          newAuth: {
+            userId: data.user.id,
+            email: data.user.email as string,
+            avatarUrl: data.user.user_metadata.avatar_url,
+          },
+        });
       }
     }
 

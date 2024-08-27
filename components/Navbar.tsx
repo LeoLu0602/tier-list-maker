@@ -1,9 +1,15 @@
 'use client';
 
+import { Dispatch } from 'react';
 import Link from 'next/link';
 import { signInWithGoogle, signOut } from '@/app/lib/auth';
+import { useAuth, useAuthDispatch } from '@/app/contexts/AuthContext';
+import { ActionType, AuthType } from '@/type';
 
 export default function Navbar() {
+  const auth: AuthType | null = useAuth();
+  const dispatch: Dispatch<ActionType> = useAuthDispatch();
+
   return (
     <nav className="w-full h-16 bg-black text-white">
       <ul className="flex items-center w-full h-full justify-between px-4">
@@ -11,25 +17,27 @@ export default function Navbar() {
           <Link href="/">Tier List Maker</Link>
         </li>
         <li>
-          <Link href="/test">test</Link>
-
-          <button
-            className="text-base"
-            onClick={() => {
-              signInWithGoogle();
-            }}
-          >
-            Sign in
-          </button>
-
-          <button
-            className="text-base"
-            onClick={() => {
-              signOut();
-            }}
-          >
-            Sign out
-          </button>
+          {auth ? (
+            <button
+              className="text-base"
+              onClick={async () => {
+                await signOut();
+                dispatch({ type: 'sign-out' });
+                window.location.reload();
+              }}
+            >
+              Sign out
+            </button>
+          ) : (
+            <button
+              className="text-base"
+              onClick={async () => {
+                await signInWithGoogle();
+              }}
+            >
+              Sign in
+            </button>
+          )}
         </li>
       </ul>
     </nav>
