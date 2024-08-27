@@ -1,3 +1,5 @@
+import { AuthProvider } from '@/app/contexts/AuthContext';
+import Navbar from '@/components/Navbar';
 import { GeistSans } from 'geist/font/sans';
 import './globals.css';
 
@@ -19,7 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <main className="min-h-screen bg-[#242222] p-8 text-white">{children}</main>
+        <AuthProvider>
+          <Navbar />
+          <main className="min-h-screen bg-[#242222] p-8 text-white">
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );
