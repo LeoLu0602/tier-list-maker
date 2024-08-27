@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { User } from '@supabase/supabase-js';
 import { retrieveUser } from '@/app/lib/auth';
-import { ActionType, AuthType } from '@/type';
+import { ActionType, AuthType } from '@/types';
 
 const AuthContext: Context<AuthType | null> = createContext<AuthType | null>(
   null

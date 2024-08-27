@@ -4,7 +4,7 @@ import { Dispatch } from 'react';
 import Link from 'next/link';
 import { signInWithGoogle, signOut } from '@/app/lib/auth';
 import { useAuth, useAuthDispatch } from '@/app/contexts/AuthContext';
-import { ActionType, AuthType } from '@/type';
+import { ActionType, AuthType } from '@/types';
 
 export default function Navbar() {
   const auth: AuthType | null = useAuth();

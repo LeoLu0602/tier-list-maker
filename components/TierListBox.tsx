@@ -37,8 +37,8 @@ export default function TierListBox({
         group="shared"
         animation={100}
       >
-        {items.map(({ id, link, description }) => (
-          <img className="h-20" key={id} src={link} alt={description} />
+        {items.map(({ id, url, description }) => (
+          <img className="h-20" key={id} src={url} alt={description} />
         ))}
       </ReactSortable>
     </section>

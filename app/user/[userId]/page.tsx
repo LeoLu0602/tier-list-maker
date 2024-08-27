@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useAuth, useAuthDispatch } from '@/app/contexts/AuthContext';
 import { signOut } from '@/app/lib/auth';
-import { ActionType, AuthType } from '@/type';
+import { ActionType, AuthType } from '@/types';
 
 export default function Page() {
   const auth: AuthType | null = useAuth();
@@ -14,18 +14,22 @@ export default function Page() {
 
   return (
     <>
-      <img className="w-16 h-16 rounded-full" src={auth?.avatarUrl ?? ''} />
-      <h1>{auth?.name ?? ''}</h1>
-      <button
-        className="text-base"
-        onClick={async () => {
-          await signOut();
-          dispatch({ type: 'sign-out' });
-          router.push('/');
-        }}
-      >
-        Sign out
-      </button>
+      <section className="flex gap-4 h-20 items-center">
+        <img className="w-20 h-20 rounded-full" src={auth?.avatarUrl ?? ''} />
+        <div className="flex flex-col items-start justify-between h-full">
+          <h2 className="font-bold text-4xl">{auth?.name ?? ''}</h2>
+          <button
+            className="text-base bg-rose-500 rounded-md h-8 w-20"
+            onClick={async () => {
+              await signOut();
+              dispatch({ type: 'sign-out' });
+              router.push('/');
+            }}
+          >
+            Sign out
+          </button>
+        </div>
+      </section>
     </>
   );
 }
