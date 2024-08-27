@@ -1,6 +1,7 @@
 export interface AuthType {
   userId: string;
   email: string;
+  name: string;
   avatarUrl: string;
 }
 

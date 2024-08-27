@@ -19,7 +19,7 @@ export default function Navbar() {
 
         <li>
           {auth ? (
-            <Link href="/user/123">My Account</Link>
+            <Link href={`/user/${auth.userId}`}>My Account</Link>
           ) : (
             <button
               className="text-base"

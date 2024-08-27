@@ -46,6 +46,7 @@ export function AuthProvider({
           newAuth: {
             userId: data.user.id,
             email: data.user.email as string,
+            name: data.user.user_metadata.full_name,
             avatarUrl: data.user.user_metadata.avatar_url,
           },
         });
