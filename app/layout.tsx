@@ -23,7 +23,9 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
         <AuthProvider>
           <Navbar />
-          <main className="min-h-screen">{children}</main>
+          <main className="min-h-screen bg-[#242222] p-8 text-white">
+            {children}
+          </main>
         </AuthProvider>
       </body>
     </html>
