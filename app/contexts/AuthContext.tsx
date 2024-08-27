@@ -9,7 +9,7 @@ import {
   useReducer,
 } from 'react';
 import { User } from '@supabase/supabase-js';
-import { retrieveUser } from '@/app/lib/auth';
+import { retrieveUser } from '@/app/lib/utils';
 import { ActionType, AuthType } from '@/types';
 
 const AuthContext: Context<AuthType | null> = createContext<AuthType | null>(

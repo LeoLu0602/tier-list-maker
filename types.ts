@@ -15,3 +15,10 @@ export interface ActionType {
   type: string;
   newAuth?: AuthType;
 }
+
+export interface TemplateType {
+  id: string;
+  created_at: string;
+  title: string;
+  poster: string;
+}

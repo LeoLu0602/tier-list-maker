@@ -2,7 +2,7 @@
 
 import { Dispatch } from 'react';
 import Link from 'next/link';
-import { signInWithGoogle, signOut } from '@/app/lib/auth';
+import { signInWithGoogle, signOut } from '@/app/lib/utils';
 import { useAuth, useAuthDispatch } from '@/app/contexts/AuthContext';
 import { ActionType, AuthType } from '@/types';
 
