@@ -17,6 +17,9 @@ export default function Navbar() {
           <Link href="/">Tier List Maker</Link>
         </li>
         <li>
+          <Link href="/user/123">My Account</Link>
+        </li>
+        <li>
           {auth ? (
             <button
               className="text-base"
