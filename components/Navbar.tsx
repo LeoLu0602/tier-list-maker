@@ -16,21 +16,10 @@ export default function Navbar() {
         <li className="font-bold text-xl">
           <Link href="/">Tier List Maker</Link>
         </li>
-        <li>
-          <Link href="/user/123">My Account</Link>
-        </li>
+
         <li>
           {auth ? (
-            <button
-              className="text-base"
-              onClick={async () => {
-                await signOut();
-                dispatch({ type: 'sign-out' });
-                window.location.reload();
-              }}
-            >
-              Sign out
-            </button>
+            <Link href="/user/123">My Account</Link>
           ) : (
             <button
               className="text-base"
