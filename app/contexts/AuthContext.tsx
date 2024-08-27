@@ -5,8 +5,10 @@ import {
   createContext,
   Dispatch,
   useContext,
+  useEffect,
   useReducer,
 } from 'react';
+import { retrieveUser } from '@/app/lib/auth';
 
 interface AuthType {
   userId: string;
@@ -14,7 +16,7 @@ interface AuthType {
 
 interface ActionType {
   type: string;
-  newAuth: AuthType;
+  newAuth?: AuthType;
 }
 
 const AuthContext: Context<AuthType | null> = createContext<AuthType | null>(
@@ -30,6 +32,19 @@ export function AuthProvider({
 }): JSX.Element {
   const [auth, dispatch] = useReducer(authReducer, null);
 
+  useEffect(() => {
+    async function setUp() {
+      const { data } = await retrieveUser();
+
+      // user is logged in
+      if (data.user) {
+        dispatch({ type: 'sign-in', newAuth: { userId: data.user.id } });
+      }
+    }
+
+    setUp();
+  }, []);
+
   return (
     <AuthContext.Provider value={auth}>
       <AuthDispatchContext.Provider value={dispatch}>
@@ -43,8 +58,8 @@ export function useAuth(): AuthType | null {
   return useContext(AuthContext);
 }
 
-export function useAuthDispatch(): Dispatch<ActionType> | null {
-  return useContext(AuthDispatchContext);
+export function useAuthDispatch(): Dispatch<ActionType> {
+  return useContext(AuthDispatchContext as Context<Dispatch<ActionType>>);
 }
 
 function authReducer(
@@ -53,7 +68,7 @@ function authReducer(
 ): AuthType | null {
   switch (action.type) {
     case 'sign-in': {
-      return action.newAuth;
+      return action.newAuth as AuthType;
     }
     case 'sign-out': {
       return null;

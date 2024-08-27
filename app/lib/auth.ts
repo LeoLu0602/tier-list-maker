@@ -1,10 +1,18 @@
-import { createClient } from '@supabase/supabase-js';
+import {
+  AuthError,
+  createClient,
+  SupabaseClient,
+  UserResponse,
+} from '@supabase/supabase-js';
 
 const SUPABASE_URL: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
 const SUPABASE_KEY: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase: SupabaseClient<any, 'public', any> = createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-export async function signInWithGoogle() {
+export async function signInWithGoogle(): Promise<void> {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
   });
@@ -15,8 +23,8 @@ export async function signInWithGoogle() {
   }
 }
 
-export async function signOut() {
-  const { error } = await supabase.auth.signOut();
+export async function signOut(): Promise<void> {
+  const { error }: { error: AuthError | null } = await supabase.auth.signOut();
 
   if (error) {
     console.error('Error: signOut');
@@ -24,8 +32,6 @@ export async function signOut() {
   }
 }
 
-export async function retrieveUser() {
-  const { data } = await supabase.auth.getUser();
-
-  return data;
+export async function retrieveUser(): Promise<UserResponse> {
+  return await supabase.auth.getUser();
 }
