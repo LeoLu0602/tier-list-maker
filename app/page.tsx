@@ -10,7 +10,7 @@ export default async function Page() {
       <section>
         {templates.map((template) => (
           <Link
-            className="bg-emerald-500 w-48 h-48 relative block"
+            className="w-48 h-48 relative block"
             key={template.id}
             href={`/create/${template.id}`}
           >
