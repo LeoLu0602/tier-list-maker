@@ -108,7 +108,7 @@ export async function checkUserStatus(userId: string): Promise<boolean> {
   return (data?.length ?? 0) > 0;
 }
 
-export async function addNewUser(newUser: AuthType): Promise<void> {
+export async function upsertUser(newUser: AuthType): Promise<void> {
   const { error }: { error: PostgrestError | null } = await supabase
     .from('user')
     .upsert({
@@ -120,7 +120,7 @@ export async function addNewUser(newUser: AuthType): Promise<void> {
     .select();
 
   if (error) {
-    console.error('Error: addNewUser ', error);
+    console.error('Error: upsertUser ', error);
     alert('Error');
   }
 }

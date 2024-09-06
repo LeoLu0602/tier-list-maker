@@ -9,7 +9,7 @@ import {
   useReducer,
 } from 'react';
 import { User } from '@supabase/supabase-js';
-import { addNewUser, checkUserStatus, retrieveUser } from '@/app/lib/utils';
+import { retrieveUser, upsertUser } from '@/app/lib/utils';
 import { ActionType, AuthType } from '@/types';
 
 const AuthContext: Context<AuthType | null> = createContext<AuthType | null>(
@@ -44,8 +44,7 @@ export function AuthProvider({
           avatarUrl: data.user.user_metadata.avatar_url,
         };
 
-        console.log(user);
-        await addNewUser(user); // addNewUser is implemented with upsert
+        await upsertUser(user); // upsertUser is implemented with upsert
 
         dispatch({
           type: 'sign-in',
