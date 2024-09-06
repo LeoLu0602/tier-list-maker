@@ -5,7 +5,7 @@ import {
   SupabaseClient,
   UserResponse,
 } from '@supabase/supabase-js';
-import { ItemType, TemplateType } from '@/types';
+import { AuthType, ItemType, TemplateType } from '@/types';
 
 const SUPABASE_URL: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
 const SUPABASE_KEY: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
@@ -15,12 +15,13 @@ const supabase: SupabaseClient<any, 'public', any> = createClient(
 );
 
 export async function signInWithGoogle(): Promise<void> {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-  });
+  const { error }: { error: AuthError | null } =
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
 
   if (error) {
-    console.error('Error: signInWithGoogle');
+    console.error('Error: signInWithGoogle ', error);
     alert('Error');
   }
 }
@@ -29,7 +30,7 @@ export async function signOut(): Promise<void> {
   const { error }: { error: AuthError | null } = await supabase.auth.signOut();
 
   if (error) {
-    console.error('Error: signOut');
+    console.error('Error: signOut ', error);
     alert('Error');
   }
 }
@@ -46,7 +47,7 @@ export async function getTemplates(): Promise<TemplateType[]> {
     await supabase.from('template').select('*');
 
   if (error) {
-    console.error('Error: getTemplates');
+    console.error('Error: getTemplates ', error);
     alert('Error');
 
     return [];
@@ -63,7 +64,7 @@ export async function getTemplateTitle(): Promise<string> {
     await supabase.from('template').select('*');
 
   if (error) {
-    console.error('Error: getTemplateTitle');
+    console.error('Error: getTemplateTitle ', error);
     alert('Error');
 
     return '';
@@ -79,7 +80,7 @@ export async function getTemplateItems(
     await supabase.from('item').select('*').eq('template_id', templateId);
 
   if (error) {
-    console.error('Error: getTemplateItems');
+    console.error('Error: getTemplateItems ', error);
     alert('Error');
 
     return [];
@@ -91,4 +92,38 @@ export async function getTemplateItems(
     }) ?? [];
 
   return items;
+}
+
+export async function checkUserStatus(userId: string): Promise<boolean> {
+  const { data, error }: { data: any[] | null; error: PostgrestError | null } =
+    await supabase.from('user').select('*').eq('id', userId);
+
+  if (error) {
+    console.error('Error: checkUserStatus ', error);
+    alert('Error');
+
+    return false;
+  }
+
+  return (data?.length ?? 0) > 0;
+}
+
+export async function addNewUser(newUser: AuthType): Promise<void> {
+  const {
+    userId,
+    email,
+    name,
+    avatarUrl,
+  }: { userId: string; email: string; name: string; avatarUrl: string } =
+    newUser;
+
+  const { error }: { error: PostgrestError | null } = await supabase
+    .from('user')
+    .insert([{ id: userId, email, name, avatar_url: avatarUrl }])
+    .select();
+
+  if (error) {
+    console.error('Error: addNewUser ', error);
+    alert('Error');
+  }
 }

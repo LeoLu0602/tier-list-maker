@@ -9,7 +9,7 @@ import {
   useReducer,
 } from 'react';
 import { User } from '@supabase/supabase-js';
-import { retrieveUser } from '@/app/lib/utils';
+import { addNewUser, checkUserStatus, retrieveUser } from '@/app/lib/utils';
 import { ActionType, AuthType } from '@/types';
 
 const AuthContext: Context<AuthType | null> = createContext<AuthType | null>(
@@ -41,14 +41,21 @@ export function AuthProvider({
 
       // user is logged in
       if (data.user) {
+        const user: AuthType = {
+          userId: data.user.id,
+          email: data.user.email ?? '',
+          name: data.user.user_metadata.full_name,
+          avatarUrl: data.user.user_metadata.avatar_url,
+        };
+        const isReturnUser: boolean = await checkUserStatus(data.user.id);
+
+        if (!isReturnUser) {
+          await addNewUser(user);
+        }
+
         dispatch({
           type: 'sign-in',
-          newAuth: {
-            userId: data.user.id,
-            email: data.user.email as string,
-            name: data.user.user_metadata.full_name,
-            avatarUrl: data.user.user_metadata.avatar_url,
-          },
+          newAuth: user,
         });
       }
     }

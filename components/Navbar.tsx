@@ -1,14 +1,12 @@
 'use client';
 
-import { Dispatch } from 'react';
 import Link from 'next/link';
-import { signInWithGoogle, signOut } from '@/app/lib/utils';
-import { useAuth, useAuthDispatch } from '@/app/contexts/AuthContext';
-import { ActionType, AuthType } from '@/types';
+import { signInWithGoogle } from '@/app/lib/utils';
+import { useAuth } from '@/app/contexts/AuthContext';
+import { AuthType } from '@/types';
 
 export default function Navbar() {
   const auth: AuthType | null = useAuth();
-  const dispatch: Dispatch<ActionType> = useAuthDispatch();
 
   return (
     <nav className="w-full h-16 bg-black text-white">

@@ -12,6 +12,7 @@ export default function Page() {
   const dispatch: Dispatch<ActionType> = useAuthDispatch();
   const router: AppRouterInstance = useRouter();
   const pathname: string = usePathname();
+  const userId: string = pathname.slice(6);
 
   return (
     <>
