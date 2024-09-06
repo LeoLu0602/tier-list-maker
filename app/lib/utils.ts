@@ -109,17 +109,14 @@ export async function checkUserStatus(userId: string): Promise<boolean> {
 }
 
 export async function addNewUser(newUser: AuthType): Promise<void> {
-  const {
-    userId,
-    email,
-    name,
-    avatarUrl,
-  }: { userId: string; email: string; name: string; avatarUrl: string } =
-    newUser;
-
   const { error }: { error: PostgrestError | null } = await supabase
     .from('user')
-    .insert([{ id: userId, email, name, avatar_url: avatarUrl }])
+    .upsert({
+      id: newUser.userId,
+      email: newUser.email,
+      name: newUser.name,
+      avatar_url: newUser.avatarUrl,
+    })
     .select();
 
   if (error) {

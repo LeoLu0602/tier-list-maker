@@ -30,16 +30,12 @@ export function AuthProvider({
       const {
         data,
       }: {
-        data:
-          | {
-              user: User;
-            }
-          | {
-              user: null;
-            };
+        data: {
+          user: User | null;
+        };
       } = await retrieveUser();
 
-      // user is logged in
+      // user signed in
       if (data.user) {
         const user: AuthType = {
           userId: data.user.id,
@@ -47,11 +43,9 @@ export function AuthProvider({
           name: data.user.user_metadata.full_name,
           avatarUrl: data.user.user_metadata.avatar_url,
         };
-        const isReturnUser: boolean = await checkUserStatus(data.user.id);
 
-        if (!isReturnUser) {
-          await addNewUser(user);
-        }
+        console.log(user);
+        await addNewUser(user); // addNewUser is implemented with upsert
 
         dispatch({
           type: 'sign-in',
