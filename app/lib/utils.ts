@@ -124,3 +124,26 @@ export async function upsertUser(newUser: AuthType): Promise<void> {
     alert('Error');
   }
 }
+
+export async function getUserInfo(userId: string): Promise<AuthType | null> {
+  const { data, error }: { data: any[] | null; error: PostgrestError | null } =
+    await supabase.from('user').select('*').eq('id', userId);
+
+  if (error) {
+    console.error('Error: getUserInfo ', error);
+    alert('Error');
+
+    return null;
+  }
+
+  if (data && data[0]) {
+    return {
+      userId: data[0].id,
+      email: data[0].email,
+      name: data[0].name,
+      avatarUrl: data[0].avatar_url,
+    };
+  }
+
+  return null;
+}

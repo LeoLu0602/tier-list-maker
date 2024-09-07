@@ -44,7 +44,9 @@ export function AuthProvider({
           avatarUrl: data.user.user_metadata.avatar_url,
         };
 
-        await upsertUser(user); // upsertUser is implemented with upsert
+        // case 1: user found in User -> update the corresponding row
+        // case 2: user not found in User -> insert new row
+        await upsertUser(user);
 
         dispatch({
           type: 'sign-in',

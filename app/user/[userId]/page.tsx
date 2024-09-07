@@ -1,10 +1,10 @@
 'use client';
 
-import { Dispatch } from 'react';
+import { Dispatch, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { useAuth, useAuthDispatch } from '@/app/contexts/AuthContext';
-import { signOut } from '@/app/lib/utils';
+import { getUserInfo, signOut } from '@/app/lib/utils';
 import { ActionType, AuthType } from '@/types';
 
 export default function Page() {
@@ -13,6 +13,16 @@ export default function Page() {
   const router: AppRouterInstance = useRouter();
   const pathname: string = usePathname();
   const userId: string = pathname.slice(6);
+
+  useEffect(() => {
+    async function setUp() {
+      const userInfo = await getUserInfo(userId);
+
+      console.log(userInfo);
+    }
+
+    setUp();
+  }, []);
 
   return (
     <>
