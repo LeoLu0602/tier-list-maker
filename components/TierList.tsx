@@ -43,6 +43,10 @@ export default function TierList({
         tier="not-rated"
         color=""
       />
+      <div className="h-8" />
+      <div className="flex justify-center">
+        <button className="bg-[#3a5795] w-60 py-1 rounded-md hover:bg-[#3a5795b3]">Save</button>
+      </div>
     </>
   );
 }
