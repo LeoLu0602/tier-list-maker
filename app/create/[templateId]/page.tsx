@@ -14,6 +14,7 @@ export default async function Page({
     <>
       <main>
         <TierList
+          templateId={params.templateId}
           title={templateTitle}
           initS={[]}
           initA={[]}

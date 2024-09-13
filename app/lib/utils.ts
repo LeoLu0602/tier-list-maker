@@ -147,3 +147,24 @@ export async function getUserInfo(userId: string): Promise<AuthType | null> {
 
   return null;
 }
+
+export async function saveTierList(tierList: {
+  template_id: string;
+  user_id: string;
+  s: string;
+  a: string;
+  b: string;
+  c: string;
+  f: string;
+  not_rated: string;
+}) {
+  const { data, error }: { data: any[] | null; error: PostgrestError | null } =
+    await supabase.from('tier_list').upsert(tierList).select();
+
+  if (error) {
+    console.error('Error: saveTierList ', error);
+    alert('Error');
+
+    return;
+  }
+}

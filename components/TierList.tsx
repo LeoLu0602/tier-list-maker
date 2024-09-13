@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { ItemType } from '@/types';
+import { AuthType, ItemType } from '@/types';
+import { saveTierList } from '@/app/lib/utils';
+import { useAuth } from '@/app/contexts/AuthContext';
 import TierListBox from './TierListBox';
 
 export default function TierList({
+  templateId,
   title,
   initS,
   initA,
@@ -13,6 +16,7 @@ export default function TierList({
   initF,
   initNotRated,
 }: {
+  templateId: string;
   title: string;
   initS: ItemType[];
   initA: ItemType[];
@@ -27,6 +31,19 @@ export default function TierList({
   const [c, setC] = useState<ItemType[]>(initC);
   const [f, setF] = useState<ItemType[]>(initF);
   const [notRated, setNotRated] = useState<ItemType[]>(initNotRated);
+  const auth: AuthType | null = useAuth();
+
+  function stringifyBox(box: ItemType[]): string {
+    return JSON.stringify(
+      /* 
+        Under the hood of ReactSortable, some unwanted properties are added.
+        A filter is set to clean up.
+      */
+      box.map(({ id, url, description }) => {
+        return { id, url, description };
+      })
+    );
+  }
 
   return (
     <>
@@ -45,7 +62,25 @@ export default function TierList({
       />
       <div className="h-8" />
       <div className="flex justify-center">
-        <button className="bg-[#3a5795] w-60 py-1 rounded-md hover:bg-[#3a5795b3]">Save</button>
+        <button
+          className="bg-[#3a5795] w-60 py-1 rounded-md hover:bg-[#3a5795b3]"
+          onClick={() => {
+            if (auth) {
+              saveTierList({
+                template_id: templateId,
+                user_id: auth.userId,
+                s: stringifyBox(s),
+                a: stringifyBox(a),
+                b: stringifyBox(b),
+                c: stringifyBox(c),
+                f: stringifyBox(f),
+                not_rated: stringifyBox(notRated),
+              });
+            }
+          }}
+        >
+          Save
+        </button>
       </div>
     </>
   );
