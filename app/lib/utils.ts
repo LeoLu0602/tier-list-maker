@@ -157,14 +157,18 @@ export async function saveTierList(tierList: {
   c: string;
   f: string;
   not_rated: string;
-}) {
-  const { data, error }: { data: any[] | null; error: PostgrestError | null } =
-    await supabase.from('tier_list').upsert(tierList).select();
+}): Promise<boolean> {
+  const { error }: { error: PostgrestError | null } = await supabase
+    .from('tier_list')
+    .upsert(tierList)
+    .select();
 
   if (error) {
     console.error('Error: saveTierList ', error);
     alert('Error');
 
-    return;
+    return false;
   }
+
+  return true;
 }

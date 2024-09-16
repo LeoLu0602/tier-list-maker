@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { AuthType, ItemType } from '@/types';
 import { saveTierList } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
@@ -31,7 +33,9 @@ export default function TierList({
   const [c, setC] = useState<ItemType[]>(initC);
   const [f, setF] = useState<ItemType[]>(initF);
   const [notRated, setNotRated] = useState<ItemType[]>(initNotRated);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const auth: AuthType | null = useAuth();
+  const router: AppRouterInstance = useRouter();
 
   function stringifyBox(box: ItemType[]): string {
     return JSON.stringify(
@@ -43,6 +47,29 @@ export default function TierList({
         return { id, url, description };
       })
     );
+  }
+
+  async function handleSave() {
+    if (auth) {
+      setIsSaving(true);
+
+      const saved: boolean = await saveTierList({
+        template_id: templateId,
+        user_id: auth.userId,
+        s: stringifyBox(s),
+        a: stringifyBox(a),
+        b: stringifyBox(b),
+        c: stringifyBox(c),
+        f: stringifyBox(f),
+        not_rated: stringifyBox(notRated),
+      });
+
+      setIsSaving(false);
+
+      if (saved) {
+        router.push(`/user/${auth.userId}`);
+      }
+    }
   }
 
   return (
@@ -64,19 +91,9 @@ export default function TierList({
       <div className="flex justify-center">
         <button
           className="bg-[#3a5795] w-60 py-1 rounded-md hover:bg-[#3a5795b3]"
+          disabled={isSaving}
           onClick={() => {
-            if (auth) {
-              saveTierList({
-                template_id: templateId,
-                user_id: auth.userId,
-                s: stringifyBox(s),
-                a: stringifyBox(a),
-                b: stringifyBox(b),
-                c: stringifyBox(c),
-                f: stringifyBox(f),
-                not_rated: stringifyBox(notRated),
-              });
-            }
+            handleSave();
           }}
         >
           Save
