@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { AuthType, ItemType } from '@/types';
-import { saveTierList } from '@/app/lib/utils';
+import { saveTierList, signInWithGoogle } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
 import TierListBox from './TierListBox';
 
@@ -49,7 +49,7 @@ export default function TierList({
     );
   }
 
-  async function handleSave() {
+  async function handleSave(): Promise<void> {
     if (auth) {
       setIsSaving(true);
 
@@ -69,6 +69,8 @@ export default function TierList({
       if (saved) {
         router.push(`/user/${auth.userId}`);
       }
+    } else {
+      await signInWithGoogle();
     }
   }
 
