@@ -70,6 +70,19 @@ export default function TierList({
         router.push(`/user/${auth.userId}`);
       }
     } else {
+      localStorage.setItem(
+        'unsaved tier list',
+        JSON.stringify({
+          templateId,
+          s,
+          a,
+          b,
+          c,
+          f,
+          notRated,
+        })
+      );
+
       await signInWithGoogle();
     }
   }
