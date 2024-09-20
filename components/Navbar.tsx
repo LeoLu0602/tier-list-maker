@@ -22,7 +22,7 @@ export default function Navbar() {
             <button
               className="text-base"
               onClick={async () => {
-                await signInWithGoogle();
+                await signInWithGoogle(window.location.origin);
               }}
             >
               Sign in

@@ -14,10 +14,13 @@ const supabase: SupabaseClient<any, 'public', any> = createClient(
   SUPABASE_KEY
 );
 
-export async function signInWithGoogle(): Promise<void> {
+export async function signInWithGoogle(redirectTo: string): Promise<void> {
   const { error }: { error: AuthError | null } =
     await supabase.auth.signInWithOAuth({
       provider: 'google',
+      options: {
+        redirectTo: redirectTo,
+      },
     });
 
   if (error) {
