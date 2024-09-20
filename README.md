@@ -13,7 +13,7 @@
 
 ## About
 
-A simplified version of [Tiermaker](https://tiermaker.com/).
+A simplified version of [TierMaker](https://tiermaker.com/).  
 
 ## Demo
 
