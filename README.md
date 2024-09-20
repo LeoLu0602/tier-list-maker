@@ -13,9 +13,11 @@
 
 ## About
 
+A simplified version of [Tiermaker](https://tiermaker.com/).
+
 ## Demo
 
-![alt text](./demo//demo%201.png)
+![demo](./demo//demo%201.png)
 
 ## Technologies
 
