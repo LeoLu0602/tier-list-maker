@@ -44,8 +44,8 @@ export function AuthProvider({
           avatarUrl: data.user.user_metadata.avatar_url,
         };
 
-        // case 1: user found in User -> update the corresponding row
-        // case 2: user not found in User -> insert new row
+        // case 1: user found in db -> update the corresponding row
+        // case 2: user not found in db -> insert new row
         await upsertUser(user);
 
         dispatch({

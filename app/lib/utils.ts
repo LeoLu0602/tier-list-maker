@@ -15,13 +15,12 @@ const supabase: SupabaseClient<any, 'public', any> = createClient(
 );
 
 export async function signInWithGoogle(redirectTo: string): Promise<void> {
-  const { error }: { error: AuthError | null } =
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: redirectTo,
-      },
-    });
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: redirectTo,
+    },
+  });
 
   if (error) {
     console.error('Error: signInWithGoogle ', error);
@@ -30,7 +29,7 @@ export async function signInWithGoogle(redirectTo: string): Promise<void> {
 }
 
 export async function signOut(): Promise<void> {
-  const { error }: { error: AuthError | null } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
 
   if (error) {
     console.error('Error: signOut ', error);
@@ -43,11 +42,7 @@ export async function retrieveUser(): Promise<UserResponse> {
 }
 
 export async function getAllTemplates(): Promise<TemplateType[]> {
-  const {
-    data,
-    error,
-  }: { data: TemplateType[] | null; error: PostgrestError | null } =
-    await supabase.from('template').select('*');
+  const { data, error } = await supabase.from('template').select('*');
 
   if (error) {
     console.error('Error: getTemplates ', error);
@@ -78,8 +73,10 @@ export async function getTemplateTitle(templateId: string): Promise<string> {
 export async function getTemplateItems(
   templateId: string
 ): Promise<ItemType[]> {
-  const { data, error }: { data: any[] | null; error: PostgrestError | null } =
-    await supabase.from('item').select('*').eq('template_id', templateId);
+  const { data, error } = await supabase
+    .from('item')
+    .select('*')
+    .eq('template_id', templateId);
 
   if (error) {
     console.error('Error: getTemplateItems ', error);
@@ -96,22 +93,8 @@ export async function getTemplateItems(
   return items;
 }
 
-export async function checkUserStatus(userId: string): Promise<boolean> {
-  const { data, error }: { data: any[] | null; error: PostgrestError | null } =
-    await supabase.from('user').select('*').eq('id', userId);
-
-  if (error) {
-    console.error('Error: checkUserStatus ', error);
-    alert('Error');
-
-    return false;
-  }
-
-  return (data?.length ?? 0) > 0;
-}
-
 export async function upsertUser(newUser: AuthType): Promise<void> {
-  const { error }: { error: PostgrestError | null } = await supabase
+  const { error } = await supabase
     .from('user')
     .upsert({
       id: newUser.userId,
@@ -128,7 +111,7 @@ export async function upsertUser(newUser: AuthType): Promise<void> {
 }
 
 export async function getUserInfo(userId: string): Promise<AuthType | null> {
-  const { data, error }: { data: any[] | null; error: PostgrestError | null } =
+  const { data, error } =
     await supabase.from('user').select('*').eq('id', userId);
 
   if (error) {
@@ -160,7 +143,7 @@ export async function saveTierList(tierList: {
   f: string;
   not_rated: string;
 }): Promise<boolean> {
-  const { error }: { error: PostgrestError | null } = await supabase
+  const { error } = await supabase
     .from('tier_list')
     .upsert(tierList)
     .select();
