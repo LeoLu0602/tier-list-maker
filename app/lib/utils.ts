@@ -1,7 +1,5 @@
 import {
-  AuthError,
   createClient,
-  PostgrestError,
   SupabaseClient,
   UserResponse,
 } from '@supabase/supabase-js';
@@ -111,8 +109,10 @@ export async function upsertUser(newUser: AuthType): Promise<void> {
 }
 
 export async function getUserInfo(userId: string): Promise<AuthType | null> {
-  const { data, error } =
-    await supabase.from('user').select('*').eq('id', userId);
+  const { data, error } = await supabase
+    .from('user')
+    .select('*')
+    .eq('id', userId);
 
   if (error) {
     console.error('Error: getUserInfo ', error);
@@ -136,17 +136,14 @@ export async function getUserInfo(userId: string): Promise<AuthType | null> {
 export async function saveTierList(tierList: {
   template_id: string;
   user_id: string;
-  s: string;
-  a: string;
-  b: string;
-  c: string;
-  f: string;
-  not_rated: string;
+  s: string[];
+  a: string[];
+  b: string[];
+  c: string[];
+  f: string[];
+  not_rated: string[];
 }): Promise<boolean> {
-  const { error } = await supabase
-    .from('tier_list')
-    .upsert(tierList)
-    .select();
+  const { error } = await supabase.from('tier_list').upsert(tierList).select();
 
   if (error) {
     console.error('Error: saveTierList ', error);

@@ -39,30 +39,34 @@ export default function TierList({
 
   async function handleSave(): Promise<void> {
     if (auth) {
-      setIsSaving(true); // disable save button temporarily
-
-      const saved: boolean = await saveTierList({
-        template_id: templateId,
-        user_id: auth.userId,
-        s: JSON.stringify(s),
-        a: JSON.stringify(a),
-        b: JSON.stringify(b),
-        c: JSON.stringify(c),
-        f: JSON.stringify(f),
-        not_rated: JSON.stringify(notRated),
-      });
-
-      setIsSaving(false); // enable save button
-
-      if (saved) {
-        router.push(`/user/${auth.userId}`);
-      }
-
-      return;
+      handleUserSave();
+    } else {
+      handleGuestSave();
     }
+  }
 
-    // user not signed in
+  async function handleUserSave() {
+    setIsSaving(true); // disable save button temporarily
 
+    const saved: boolean = await saveTierList({
+      template_id: templateId,
+      user_id: auth!.userId,
+      s: s.map(({ id }) => id),
+      a: a.map(({ id }) => id),
+      b: b.map(({ id }) => id),
+      c: c.map(({ id }) => id),
+      f: f.map(({ id }) => id),
+      not_rated: notRated.map(({ id }) => id),
+    });
+
+    setIsSaving(false); // enable save button
+
+    if (saved) {
+      router.push(`/user/${auth!.userId}`);
+    }
+  }
+
+  async function handleGuestSave() {
     localStorage.setItem(
       'unsaved tier list',
       JSON.stringify({
@@ -92,18 +96,8 @@ export default function TierList({
         c: ItemType[];
         f: ItemType[];
         notRated: ItemType[];
-      } = unsavedTierListString
-        ? JSON.parse(unsavedTierListString)
-        : {
-            templateId: templateId,
-            s: [],
-            a: [],
-            b: [],
-            c: [],
-            f: [],
-            notRated: [],
-          };
-      
+      } = JSON.parse(unsavedTierListString);
+
       // retrieve unsaved tier list
       if (templateId === unsavedTierList.templateId) {
         setS(unsavedTierList.s);
