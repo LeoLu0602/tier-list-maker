@@ -42,7 +42,7 @@ export async function retrieveUser(): Promise<UserResponse> {
   return await supabase.auth.getUser();
 }
 
-export async function getTemplates(): Promise<TemplateType[]> {
+export async function getAllTemplates(): Promise<TemplateType[]> {
   const {
     data,
     error,

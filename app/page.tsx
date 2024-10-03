@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { getTemplates } from '@/app/lib/utils';
+import { getAllTemplates } from '@/app/lib/utils';
 import { TemplateType } from '@/types';
 
 export default async function Page() {
-  const templates: TemplateType[] = await getTemplates();
+  const templates: TemplateType[] = await getAllTemplates();
 
   return (
     <>
