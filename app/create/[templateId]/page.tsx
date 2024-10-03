@@ -7,7 +7,7 @@ export default async function Page({
 }: {
   params: { templateId: string };
 }) {
-  const templateTitle: string = await getTemplateTitle();
+  const templateTitle: string = await getTemplateTitle(params.templateId);
   const templateItems: ItemType[] = await getTemplateItems(params.templateId);
 
   return (
