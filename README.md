@@ -19,6 +19,8 @@ A simplified version of [TierMaker](https://tiermaker.com/).
 
 ![demo](./demo//demo%201.png)
 
+Gravity Falls Character Tier List is chosen for demo because Gravity Falls is my favorite TV show of all time.
+
 ## Technologies
 
  - Frontend: [Next.js](https://nextjs.org/), [SortableJS](https://sortablejs.github.io/Sortable/)
