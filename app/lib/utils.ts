@@ -154,3 +154,46 @@ export async function saveTierList(tierList: {
 
   return true;
 }
+
+export async function getUserTemplates(
+  userId: string
+): Promise<TemplateType[]> {
+  const templateIds: string[] = await getUserTemplateIds(userId);
+  const templates: TemplateType[] = await getTemplates(templateIds);
+
+  return templates;
+}
+
+export async function getUserTemplateIds(userId: string): Promise<string[]> {
+  const { data, error } = await supabase
+    .from('tier_list')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Error: getUserTemplates ', error);
+    alert('Error');
+
+    return [];
+  }
+
+  return data?.map(({ template_id }) => template_id) ?? [];
+}
+
+export async function getTemplates(
+  templateIds: string[]
+): Promise<TemplateType[]> {
+  const { data, error } = await supabase
+    .from('template')
+    .select('*')
+    .in('id', templateIds);
+
+  if (error) {
+    console.error('Error: getTemplates ', error);
+    alert('Error');
+
+    return [];
+  }
+
+  return data;
+}
