@@ -1,7 +1,6 @@
 import {
   getTemplate,
   getTemplateItems,
-  getTemplateTitle,
 } from '@/app/lib/utils';
 import { ItemType } from '@/types';
 import TierList from '@/components/TierList';

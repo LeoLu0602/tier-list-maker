@@ -52,22 +52,6 @@ export async function getAllTemplates(): Promise<TemplateType[]> {
   return data ?? [];
 }
 
-export async function getTemplateTitle(templateId: string): Promise<string> {
-  const { data, error } = await supabase
-    .from('template')
-    .select('*')
-    .eq('id', templateId);
-
-  if (error) {
-    console.error('Error: getTemplateTitle ', error);
-    alert('Error');
-
-    return '';
-  }
-
-  return data?.[0].title ?? '';
-}
-
 export async function getTemplateItems(
   templateId: string
 ): Promise<ItemType[]> {
