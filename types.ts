@@ -22,3 +22,16 @@ export interface TemplateType {
   title: string;
   poster: string;
 }
+
+export interface TierListType {
+  template_id: string;
+  user_id: string;
+  s: string[];
+  a: string[];
+  b: string[];
+  c: string[];
+  f: string[];
+  not_rated: string[];
+  title: string;
+  poster: string;
+}

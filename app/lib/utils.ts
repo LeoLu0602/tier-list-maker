@@ -3,7 +3,7 @@ import {
   SupabaseClient,
   UserResponse,
 } from '@supabase/supabase-js';
-import { AuthType, ItemType, TemplateType } from '@/types';
+import { AuthType, ItemType, TemplateType, TierListType } from '@/types';
 
 const SUPABASE_URL: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
 const SUPABASE_KEY: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
@@ -91,6 +91,24 @@ export async function getTemplateItems(
   return items;
 }
 
+export async function getTemplate(
+  templateId: string
+): Promise<TemplateType | null> {
+  const { data, error } = await supabase
+    .from('template')
+    .select('*')
+    .eq('id', templateId);
+
+  if (error) {
+    console.error('Error: getTemplate ', error);
+    alert('Error');
+
+    return null;
+  }
+
+  return data?.[0] ?? null;
+}
+
 export async function upsertUser(newUser: AuthType): Promise<void> {
   const { error } = await supabase
     .from('user')
@@ -133,16 +151,7 @@ export async function getUserInfo(userId: string): Promise<AuthType | null> {
   return null;
 }
 
-export async function saveTierList(tierList: {
-  template_id: string;
-  user_id: string;
-  s: string[];
-  a: string[];
-  b: string[];
-  c: string[];
-  f: string[];
-  not_rated: string[];
-}): Promise<boolean> {
+export async function saveTierList(tierList: TierListType): Promise<boolean> {
   const { error } = await supabase.from('tier_list').upsert(tierList).select();
 
   if (error) {

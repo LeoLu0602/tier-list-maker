@@ -11,6 +11,7 @@ import TierListBox from './TierListBox';
 export default function TierList({
   templateId,
   title,
+  poster,
   initS,
   initA,
   initB,
@@ -20,6 +21,7 @@ export default function TierList({
 }: {
   templateId: string;
   title: string;
+  poster: string;
   initS: ItemType[];
   initA: ItemType[];
   initB: ItemType[];
@@ -57,6 +59,8 @@ export default function TierList({
       c: c.map(({ id }) => id),
       f: f.map(({ id }) => id),
       not_rated: notRated.map(({ id }) => id),
+      title,
+      poster,
     });
 
     setIsSaving(false); // enable save button

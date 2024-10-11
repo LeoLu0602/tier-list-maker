@@ -1,4 +1,8 @@
-import { getTemplateItems, getTemplateTitle } from '@/app/lib/utils';
+import {
+  getTemplate,
+  getTemplateItems,
+  getTemplateTitle,
+} from '@/app/lib/utils';
 import { ItemType } from '@/types';
 import TierList from '@/components/TierList';
 
@@ -7,7 +11,11 @@ export default async function Page({
 }: {
   params: { templateId: string };
 }) {
-  const templateTitle: string = await getTemplateTitle(params.templateId);
+  const { title, poster }: { title: string; poster: string } =
+    (await getTemplate(params.templateId)) ?? {
+      title: '',
+      poster: '',
+    };
   const templateItems: ItemType[] = await getTemplateItems(params.templateId);
 
   return (
@@ -15,7 +23,8 @@ export default async function Page({
       <main>
         <TierList
           templateId={params.templateId}
-          title={templateTitle}
+          title={title}
+          poster={poster}
           initS={[]}
           initA={[]}
           initB={[]}

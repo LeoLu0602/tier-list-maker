@@ -1,5 +1,6 @@
 import { getUserInfo, getUserTemplates } from '@/app/lib/utils';
 import SignOutBtn from '@/components/SignOutBtn';
+import Template from '@/components/Template';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userInfo = await getUserInfo(params.userId);
@@ -17,8 +18,10 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <SignOutBtn userId={params.userId} />
         </div>
       </section>
-      <section>
-        
+      <section className="mt-16">
+        {userTemplates.map((template) => (
+          <Template template={template} />
+        ))}
       </section>
     </>
   );
