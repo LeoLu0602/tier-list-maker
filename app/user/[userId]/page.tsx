@@ -1,10 +1,10 @@
-import { getUserInfo, getUserTemplates } from '@/app/lib/utils';
+import { getUserInfo } from '@/app/lib/utils';
 import SignOutBtn from '@/components/SignOutBtn';
 import Template from '@/components/Template';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userInfo = await getUserInfo(params.userId);
-  const userTemplates = await getUserTemplates(params.userId);
+  // const tierLists
 
   return (
     <>
@@ -19,9 +19,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
         </div>
       </section>
       <section className="mt-16">
-        {userTemplates.map((template) => (
-          <Template template={template} />
-        ))}
+
       </section>
     </>
   );

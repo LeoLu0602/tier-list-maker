@@ -50,6 +50,8 @@ export default function TierList({
   async function handleUserSave() {
     setIsSaving(true); // disable save button temporarily
 
+    // user is only allowed to create one tier list for each template
+    // template_id is the primary key
     const saved: boolean = await saveTierList({
       template_id: templateId,
       user_id: auth!.userId,

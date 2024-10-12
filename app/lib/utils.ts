@@ -43,7 +43,7 @@ export async function getAllTemplates(): Promise<TemplateType[]> {
   const { data, error } = await supabase.from('template').select('*');
 
   if (error) {
-    console.error('Error: getTemplates ', error);
+    console.error('Error: getAllTemplates ', error);
     alert('Error');
 
     return [];
@@ -93,14 +93,20 @@ export async function getTemplate(
   return data?.[0] ?? null;
 }
 
-export async function upsertUser(newUser: AuthType): Promise<void> {
+export async function upsertUser({
+  userId,
+  email,
+  name,
+  avatarUrl,
+}: AuthType): Promise<void> {
+  // "Primary keys must be included in values to use upsert" (https://supabase.com/docs/reference/javascript/upsert)
   const { error } = await supabase
     .from('user')
     .upsert({
-      id: newUser.userId,
-      email: newUser.email,
-      name: newUser.name,
-      avatar_url: newUser.avatarUrl,
+      id: userId,
+      email: email,
+      name: name,
+      avatar_url: avatarUrl,
     })
     .select();
 
@@ -136,6 +142,7 @@ export async function getUserInfo(userId: string): Promise<AuthType | null> {
 }
 
 export async function saveTierList(tierList: TierListType): Promise<boolean> {
+  // "Primary keys must be included in values to use upsert" (https://supabase.com/docs/reference/javascript/upsert)
   const { error } = await supabase.from('tier_list').upsert(tierList).select();
 
   if (error) {
@@ -146,47 +153,4 @@ export async function saveTierList(tierList: TierListType): Promise<boolean> {
   }
 
   return true;
-}
-
-export async function getUserTemplates(
-  userId: string
-): Promise<TemplateType[]> {
-  const templateIds: string[] = await getUserTemplateIds(userId);
-  const templates: TemplateType[] = await getTemplates(templateIds);
-
-  return templates;
-}
-
-export async function getUserTemplateIds(userId: string): Promise<string[]> {
-  const { data, error } = await supabase
-    .from('tier_list')
-    .select('*')
-    .eq('user_id', userId);
-
-  if (error) {
-    console.error('Error: getUserTemplates ', error);
-    alert('Error');
-
-    return [];
-  }
-
-  return data?.map(({ template_id }) => template_id) ?? [];
-}
-
-export async function getTemplates(
-  templateIds: string[]
-): Promise<TemplateType[]> {
-  const { data, error } = await supabase
-    .from('template')
-    .select('*')
-    .in('id', templateIds);
-
-  if (error) {
-    console.error('Error: getTemplates ', error);
-    alert('Error');
-
-    return [];
-  }
-
-  return data;
 }
