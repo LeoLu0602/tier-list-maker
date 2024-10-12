@@ -49,7 +49,11 @@ export async function getAllTemplates(): Promise<TemplateType[]> {
     return [];
   }
 
-  return data ?? [];
+  return (
+    data.map(({ id, title, poster }) => {
+      return { id, title, poster };
+    }) ?? []
+  );
 }
 
 export async function getTemplateItems(
@@ -153,4 +157,23 @@ export async function saveTierList(tierList: TierListType): Promise<boolean> {
   }
 
   return true;
+}
+
+export async function getUserTemplates(
+  userId: string
+): Promise<{ template_id: string; title: string; poster: string }[]> {
+  const { data, error } = await supabase
+    .from('tier_list')
+    .select('*')
+    .eq('user_id', userId)
+    .select('template_id, title, poster');
+
+  if (error) {
+    console.error('Error: getUserTierLists ', error);
+    alert('Error');
+
+    return [];
+  }
+
+  return data;
 }

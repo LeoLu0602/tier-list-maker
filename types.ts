@@ -6,7 +6,6 @@ export interface ItemType {
 
 export interface TemplateType {
   id: string;
-  created_at: string;
   title: string;
   poster: string;
 }
