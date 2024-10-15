@@ -159,14 +159,14 @@ export async function saveTierList(tierList: TierListType): Promise<boolean> {
   return true;
 }
 
-export async function getUserTemplates(
+export async function getUserTierLists(
   userId: string
-): Promise<{ template_id: string; title: string; poster: string }[]> {
+): Promise<{ id: string; title: string; poster: string }[]> {
   const { data, error } = await supabase
     .from('tier_list')
     .select('*')
     .eq('user_id', userId)
-    .select('template_id, title, poster');
+    .select('id, title, poster');
 
   if (error) {
     console.error('Error: getUserTierLists ', error);

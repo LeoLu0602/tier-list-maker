@@ -6,8 +6,8 @@ export interface ItemType {
 
 export interface TemplateType {
   id: string;
-  title: string;
   poster: string;
+  title: string;
 }
 
 export interface TierListType {

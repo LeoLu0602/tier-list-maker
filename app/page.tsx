@@ -8,8 +8,13 @@ export default async function Page() {
   return (
     <>
       <section>
-        {templates.map((template) => (
-          <Template template={template} />
+        {templates.map(({ id, poster, title }) => (
+          <Template
+            key={id}
+            link={`/create/${id}`}
+            poster={poster}
+            title={title}
+          />
         ))}
       </section>
     </>
