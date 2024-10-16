@@ -11,8 +11,8 @@ export interface TemplateType {
 }
 
 export interface TierListType {
-  id: string;
-  created_at: string;
+  id?: string;
+  created_at?: string;
   user_id: string;
   s: string[];
   a: string[];

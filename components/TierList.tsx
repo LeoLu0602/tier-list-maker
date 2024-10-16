@@ -164,17 +164,19 @@ export default function TierList({
         disabled={disabled}
       />
       <div className="h-8" />
-      <div className="flex justify-center">
-        <button
-          className="bg-[#3a5795] w-60 py-1 rounded-md hover:bg-[#3a5795b3]"
-          disabled={isSaving}
-          onClick={() => {
-            handleSave();
-          }}
-        >
-          Save
-        </button>
-      </div>
+      {!disabled && (
+        <div className="flex justify-center">
+          <button
+            className="bg-[#3a5795] w-60 py-1 rounded-md hover:bg-[#3a5795b3]"
+            disabled={isSaving}
+            onClick={() => {
+              handleSave();
+            }}
+          >
+            Save
+          </button>
+        </div>
+      )}
     </>
   );
 }
