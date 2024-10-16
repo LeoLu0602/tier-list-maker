@@ -18,6 +18,7 @@ export default function TierList({
   initC,
   initF,
   initNotRated,
+  disabled,
 }: {
   templateId: string;
   title: string;
@@ -28,6 +29,7 @@ export default function TierList({
   initC: ItemType[];
   initF: ItemType[];
   initNotRated: ItemType[];
+  disabled: boolean;
 }) {
   const [s, setS] = useState<ItemType[]>(initS);
   const [a, setA] = useState<ItemType[]>(initA);
@@ -118,17 +120,48 @@ export default function TierList({
   return (
     <>
       <h1 className="mb-8 font-bold text-4xl">{title}</h1>
-      <TierListBox items={s} setItems={setS} tier="S" color="#ff7f7f" />
-      <TierListBox items={a} setItems={setA} tier="A" color="#ffbf7f" />
-      <TierListBox items={b} setItems={setB} tier="B" color="#ffdf7f" />
-      <TierListBox items={c} setItems={setC} tier="C" color="#ffff7f" />
-      <TierListBox items={f} setItems={setF} tier="F" color="#7fffff" />
+      <TierListBox
+        items={s}
+        setItems={setS}
+        tier="S"
+        color="#ff7f7f"
+        disabled={disabled}
+      />
+      <TierListBox
+        items={a}
+        setItems={setA}
+        tier="A"
+        color="#ffbf7f"
+        disabled={disabled}
+      />
+      <TierListBox
+        items={b}
+        setItems={setB}
+        tier="B"
+        color="#ffdf7f"
+        disabled={disabled}
+      />
+      <TierListBox
+        items={c}
+        setItems={setC}
+        tier="C"
+        color="#ffff7f"
+        disabled={disabled}
+      />
+      <TierListBox
+        items={f}
+        setItems={setF}
+        tier="F"
+        color="#7fffff"
+        disabled={disabled}
+      />
       <div className="h-8" />
       <TierListBox
         items={notRated}
         setItems={setNotRated}
         tier="not-rated"
         color=""
+        disabled={disabled}
       />
       <div className="h-8" />
       <div className="flex justify-center">

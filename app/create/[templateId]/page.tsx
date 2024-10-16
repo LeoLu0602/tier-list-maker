@@ -30,6 +30,7 @@ export default async function Page({
           initC={[]}
           initF={[]}
           initNotRated={templateItems}
+          disabled={false}
         />
       </main>
     </>

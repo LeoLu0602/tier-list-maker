@@ -8,11 +8,13 @@ export default function TierListBox({
   setItems,
   tier,
   color,
+  disabled,
 }: {
   items: ItemType[];
   setItems: Dispatch<SetStateAction<ItemType[]>>;
   tier: string;
   color: string;
+  disabled: boolean;
 }) {
   return (
     <section
@@ -36,6 +38,7 @@ export default function TierListBox({
         setList={setItems}
         group="shared"
         animation={100}
+        disabled={disabled}
       >
         {items.map(({ id, url, description }) => (
           <img className="h-20" key={id} src={url} alt={description} />
