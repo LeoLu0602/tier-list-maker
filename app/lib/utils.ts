@@ -94,7 +94,7 @@ export async function getTemplate(
     return null;
   }
 
-  return data?.[0] ?? null;
+  return data.length > 0 ? data[0] : null;
 }
 
 export async function upsertUser({
@@ -164,9 +164,8 @@ export async function getUserTierLists(
 ): Promise<{ id: string; title: string; poster: string }[]> {
   const { data, error } = await supabase
     .from('tier_list')
-    .select('*')
-    .eq('user_id', userId)
-    .select('id, title, poster');
+    .select('user_id, id, title, poster')
+    .eq('user_id', userId);
 
   if (error) {
     console.error('Error: getUserTierLists ', error);
@@ -175,5 +174,25 @@ export async function getUserTierLists(
     return [];
   }
 
-  return data;
+  return data.map(({ id, title, poster }) => {
+    return { id, title, poster };
+  });
+}
+
+export async function getTierList(
+  tierListId: string
+): Promise<TierListType | null> {
+  const { data, error } = await supabase
+    .from('tier_list')
+    .select('*')
+    .eq('id', tierListId);
+
+  if (error) {
+    console.error('Error: getTierList ', error);
+    alert('Error');
+
+    return null;
+  }
+
+  return data.length > 0 ? data[0] : null;
 }

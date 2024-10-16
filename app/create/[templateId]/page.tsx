@@ -19,7 +19,7 @@ export default async function Page({
 
   return (
     <>
-      <main>
+      <section>
         <TierList
           templateId={params.templateId}
           title={title}
@@ -32,7 +32,7 @@ export default async function Page({
           initNotRated={templateItems}
           disabled={false}
         />
-      </main>
+      </section>
     </>
   );
 }

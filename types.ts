@@ -6,12 +6,13 @@ export interface ItemType {
 
 export interface TemplateType {
   id: string;
-  poster: string;
   title: string;
+  poster: string;
 }
 
 export interface TierListType {
-  template_id: string;
+  id: string;
+  created_at: string;
   user_id: string;
   s: string[];
   a: string[];
@@ -19,15 +20,16 @@ export interface TierListType {
   c: string[];
   f: string[];
   not_rated: string[];
+  template_id: string;
   title: string;
   poster: string;
 }
 
 export interface AuthType {
   userId: string;
-  email: string;
-  name: string;
   avatarUrl: string;
+  name: string;
+  email: string;
 }
 
 export interface ActionType {
