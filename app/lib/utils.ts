@@ -196,3 +196,18 @@ export async function getTierList(
 
   return data.length > 0 ? data[0] : null;
 }
+
+export async function getItemsFromIds(ids: string[]): Promise<ItemType[]> {
+  const { data, error } = await supabase.from('item').select('*').in('id', ids);
+
+  if (error) {
+    console.error('Error: getItemsFromIds ', error);
+    alert('Error');
+
+    return [];
+  }
+
+  return data.map(({ id, url, description }) => {
+    return { id, url, description };
+  });
+}
