@@ -2,6 +2,8 @@ import { getUserInfo, getUserTierLists } from '@/app/lib/utils';
 import SignOutBtn from '@/components/SignOutBtn';
 import Template from '@/components/Template';
 
+export const fetchCache = 'force-no-store';
+
 export default async function Page({ params }: { params: { userId: string } }) {
   const userInfo = await getUserInfo(params.userId);
   const tierLists: { id: string; title: string; poster: string }[] =
@@ -19,7 +21,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
           <SignOutBtn userId={params.userId} />
         </div>
       </section>
-      <section className="mt-16">
+      <section className="mt-16 flex flex-wrap gap-4">
         {tierLists.map(({ id, title, poster }) => (
           <Template
             key={id}

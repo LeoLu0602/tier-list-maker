@@ -3,6 +3,8 @@ import Navbar from '@/components/Navbar';
 import { GeistSans } from 'geist/font/sans';
 import './globals.css';
 
+export const fetchCache = 'only-no-store';
+
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : 'http://localhost:3000';

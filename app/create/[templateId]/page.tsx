@@ -1,9 +1,8 @@
-import {
-  getTemplate,
-  getTemplateItems,
-} from '@/app/lib/utils';
+import { getTemplate, getTemplateItems } from '@/app/lib/utils';
 import { ItemType } from '@/types';
 import TierList from '@/components/TierList';
+
+export const fetchCache = 'force-no-store';
 
 export default async function Page({
   params,
@@ -30,7 +29,6 @@ export default async function Page({
           initC={[]}
           initF={[]}
           initNotRated={templateItems}
-          disabled={false}
         />
       </section>
     </>

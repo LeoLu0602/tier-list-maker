@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { AuthType, ItemType } from '@/types';
+import { AuthType, ItemType, TierListType } from '@/types';
 import { saveTierList, signInWithGoogle } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
 import TierListBox from './TierListBox';
 
 export default function TierList({
+  userId = '',
+  tierListId = '',
   templateId,
   title,
   poster,
@@ -18,8 +20,9 @@ export default function TierList({
   initC,
   initF,
   initNotRated,
-  disabled,
 }: {
+  userId?: string;
+  tierListId?: string;
   templateId: string;
   title: string;
   poster: string;
@@ -29,7 +32,6 @@ export default function TierList({
   initC: ItemType[];
   initF: ItemType[];
   initNotRated: ItemType[];
-  disabled: boolean;
 }) {
   const [s, setS] = useState<ItemType[]>(initS);
   const [a, setA] = useState<ItemType[]>(initA);
@@ -40,6 +42,9 @@ export default function TierList({
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const auth: AuthType | null = useAuth();
   const router: AppRouterInstance = useRouter();
+  const pathname = usePathname();
+  const isCreatePage: boolean = pathname.startsWith('/create');
+  const disabled: boolean = !(isCreatePage || (auth && auth.userId === userId));
 
   async function handleSave(): Promise<void> {
     if (auth) {
@@ -52,7 +57,7 @@ export default function TierList({
   async function handleUserSave() {
     setIsSaving(true); // disable save button temporarily
 
-    const saved: boolean = await saveTierList({
+    const toBeSaved: TierListType = {
       template_id: templateId,
       user_id: auth!.userId,
       s: s.map(({ id }) => id),
@@ -63,12 +68,24 @@ export default function TierList({
       not_rated: notRated.map(({ id }) => id),
       title,
       poster,
-    });
+    };
+
+    // Update existing tier list
+    if (tierListId) {
+      toBeSaved.id = tierListId;
+    }
+
+    const saved: boolean = await saveTierList(toBeSaved);
 
     setIsSaving(false); // enable save button
 
     if (saved) {
-      router.push(`/user/${auth!.userId}`);
+      if (isCreatePage) {
+        // router.push(`/user/${auth!.userId}`);
+        location.replace(`/user/${auth!.userId}`);
+      } else {
+        location.reload();
+      }
     }
   }
 

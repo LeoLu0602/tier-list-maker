@@ -1,4 +1,3 @@
-import { TemplateType } from '@/types';
 import Link from 'next/link';
 
 export default function Template({

@@ -2,6 +2,8 @@ import { TierListType } from '@/types';
 import { getItemsFromIds, getTierList } from '@/app/lib/utils';
 import TierList from '@/components/TierList';
 
+export const fetchCache = 'force-no-store';
+
 export default async function Page({ params }: { params: { listId: string } }) {
   const tierList: TierListType | null = await getTierList(params.listId);
 
@@ -9,7 +11,6 @@ export default async function Page({ params }: { params: { listId: string } }) {
     return <></>;
   }
 
-  const { template_id: templateId, title, poster } = tierList;
   const initS = await getItemsFromIds(tierList.s);
   const initA = await getItemsFromIds(tierList.a);
   const initB = await getItemsFromIds(tierList.b);
@@ -20,20 +21,19 @@ export default async function Page({ params }: { params: { listId: string } }) {
   return (
     <>
       <section>
-        {tierList && (
-          <TierList
-            templateId={templateId}
-            title={title}
-            poster={poster}
-            initS={initS}
-            initA={initA}
-            initB={initB}
-            initC={initC}
-            initF={initF}
-            initNotRated={initNotRated}
-            disabled={true}
-          />
-        )}
+        <TierList
+          userId={tierList.user_id}
+          tierListId={tierList.id}
+          templateId={tierList.template_id}
+          title={tierList.title}
+          poster={tierList.poster}
+          initS={initS}
+          initA={initA}
+          initB={initB}
+          initC={initC}
+          initF={initF}
+          initNotRated={initNotRated}
+        />
       </section>
     </>
   );
