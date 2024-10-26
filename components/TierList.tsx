@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { usePathname } from 'next/navigation';
 import { AuthType, ItemType, TierListType } from '@/types';
 import { saveTierList, signInWithGoogle } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
@@ -41,10 +40,15 @@ export default function TierList({
   const [notRated, setNotRated] = useState<ItemType[]>(initNotRated);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const auth: AuthType | null = useAuth();
-  const router: AppRouterInstance = useRouter();
   const pathname = usePathname();
   const isCreatePage: boolean = pathname.startsWith('/create');
   const disabled: boolean = !(isCreatePage || (auth && auth.userId === userId));
+
+  /*
+    when does save button show:
+      1. /create: always
+      2. /list: if this list belongs to the user
+  */
 
   async function handleSave(): Promise<void> {
     if (auth) {
