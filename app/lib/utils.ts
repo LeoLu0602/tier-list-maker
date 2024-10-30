@@ -207,7 +207,12 @@ export async function getItemsFromIds(ids: string[]): Promise<ItemType[]> {
     return [];
   }
 
-  return data.map(({ id, url, description }) => {
-    return { id, url, description };
-  });
+  const order = new Map<string, number>(ids.map((id, i) => [id, i])); // map id to order
+
+  // the order is gonna messed up if not sorted using order
+  return data
+    .map(({ id, url, description }) => {
+      return { id, url, description };
+    })
+    .sort((a, b) => order.get(a.id)! - order.get(b.id)!);
 }

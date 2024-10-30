@@ -85,7 +85,6 @@ export default function TierList({
 
     if (saved) {
       if (isCreatePage) {
-        // router.push(`/user/${auth!.userId}`);
         location.replace(`/user/${auth!.userId}`);
       } else {
         location.reload();
