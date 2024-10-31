@@ -3,13 +3,17 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { AuthType, ItemType, TierListType } from '@/types';
-import { saveTierList, signInWithGoogle } from '@/app/lib/utils';
+import {
+  deleteTierList,
+  saveTierList,
+  signInWithGoogle,
+} from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
 import TierListBox from './TierListBox';
 
 export default function TierList({
-  userId = '',
-  tierListId = '',
+  userId = '', // userId is set to '' in /create
+  tierListId = '', // tierListId is set to '' in /create
   templateId,
   title,
   poster,
@@ -39,16 +43,16 @@ export default function TierList({
   const [f, setF] = useState<ItemType[]>(initF);
   const [notRated, setNotRated] = useState<ItemType[]>(initNotRated);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const auth: AuthType | null = useAuth();
-  const pathname = usePathname();
+  const pathname: string = usePathname();
   const isCreatePage: boolean = pathname.startsWith('/create');
-  const disabled: boolean = !(isCreatePage || (auth && auth.userId === userId));
-
-  /*
-    when does save button show:
-      1. /create: always
-      2. /list: if this list belongs to the user
-  */
+  const isListPage: boolean = pathname.startsWith('/list');
+  const isListOwner: boolean =
+    isListPage && auth !== null && auth.userId === userId;
+  const allowSave: boolean = isCreatePage || isListOwner;
+  const allowDelete: boolean = isListOwner;
+  const disabled: boolean = !allowSave;
 
   async function handleSave(): Promise<void> {
     if (auth) {
@@ -58,7 +62,7 @@ export default function TierList({
     }
   }
 
-  async function handleUserSave() {
+  async function handleUserSave(): Promise<void> {
     setIsSaving(true); // disable save button temporarily
 
     const toBeSaved: TierListType = {
@@ -75,7 +79,7 @@ export default function TierList({
     };
 
     // Update existing tier list
-    if (tierListId) {
+    if (tierListId !== '') {
       toBeSaved.id = tierListId;
     }
 
@@ -92,7 +96,7 @@ export default function TierList({
     }
   }
 
-  async function handleGuestSave() {
+  async function handleGuestSave(): Promise<void> {
     localStorage.setItem(
       'unsaved tier list',
       JSON.stringify({
@@ -107,6 +111,26 @@ export default function TierList({
     );
 
     await signInWithGoogle(`${window.location.origin}/create/${templateId}`);
+  }
+
+  async function handleDelete(): Promise<void> {
+    if (!confirm('Are you sure you want to delete this list?')) {
+      return; // Cancel
+    }
+
+    // OK
+    setIsDeleting(true);
+
+    // allowDelete is true => isListOwner is true => isListPage is true => tierListId !== ''
+    const deleted: boolean = await deleteTierList(tierListId);
+
+    setIsDeleting(false);
+
+    if (deleted) {
+      location.replace(`/user/${auth!.userId}`);
+    } else {
+      alert('Deletion failed!');
+    }
   }
 
   useEffect(() => {
@@ -194,6 +218,19 @@ export default function TierList({
             }}
           >
             Save
+          </button>
+        </div>
+      )}
+      {allowDelete && (
+        <div className="flex justify-center mt-4">
+          <button
+            className="bg-red-500 w-60 py-1 rounded-md hover:bg-red-600"
+            disabled={isDeleting}
+            onClick={() => {
+              handleDelete();
+            }}
+          >
+            Delete
           </button>
         </div>
       )}

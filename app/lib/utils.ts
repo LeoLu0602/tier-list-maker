@@ -197,8 +197,11 @@ export async function getTierList(
   return data.length > 0 ? data[0] : null;
 }
 
-export async function getItemsFromIds(ids: string[]): Promise<ItemType[]> {
-  const { data, error } = await supabase.from('item').select('*').in('id', ids);
+export async function getItemsFromIds(itemIds: string[]): Promise<ItemType[]> {
+  const { data, error } = await supabase
+    .from('item')
+    .select('*')
+    .in('id', itemIds);
 
   if (error) {
     console.error('Error: getItemsFromIds ', error);
@@ -207,7 +210,7 @@ export async function getItemsFromIds(ids: string[]): Promise<ItemType[]> {
     return [];
   }
 
-  const order = new Map<string, number>(ids.map((id, i) => [id, i])); // map id to order
+  const order = new Map<string, number>(itemIds.map((id, i) => [id, i])); // map id to order
 
   // the order is gonna messed up if not sorted using order
   return data
@@ -215,4 +218,20 @@ export async function getItemsFromIds(ids: string[]): Promise<ItemType[]> {
       return { id, url, description };
     })
     .sort((a, b) => order.get(a.id)! - order.get(b.id)!);
+}
+
+export async function deleteTierList(tierListId: string): Promise<boolean> {
+  const { error } = await supabase
+    .from('tier_list')
+    .delete()
+    .eq('id', tierListId);
+
+  if (error) {
+    console.error('Error: deleteTierList ', error);
+    alert('Error');
+
+    return false;
+  }
+
+  return true;
 }
