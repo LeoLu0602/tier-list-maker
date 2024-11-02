@@ -10,6 +10,7 @@ import {
 } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
 import TierListBox from './TierListBox';
+import MsgBox from './MsgBox';
 
 export default function TierList({
   userId = '', // userId is set to '' in /create
@@ -44,6 +45,7 @@ export default function TierList({
   const [notRated, setNotRated] = useState<ItemType[]>(initNotRated);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [showMsgBox, setShowMsgBox] = useState<boolean>(false);
   const auth: AuthType | null = useAuth();
   const pathname: string = usePathname();
   const isCreatePage: boolean = pathname.startsWith('/create');
@@ -91,7 +93,10 @@ export default function TierList({
       if (isCreatePage) {
         location.replace(`/user/${auth!.userId}`);
       } else {
-        location.reload();
+        setShowMsgBox(true);
+        setTimeout(() => {
+          setShowMsgBox(false);
+        }, 1000);
       }
     }
   }
@@ -163,6 +168,7 @@ export default function TierList({
 
   return (
     <>
+      {showMsgBox && <MsgBox msg="Saved!" />}
       <h1 className="mb-8 font-bold text-4xl">{title}</h1>
       <TierListBox
         items={s}
