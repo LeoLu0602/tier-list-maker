@@ -43,8 +43,7 @@ export default function TierList({
   const [c, setC] = useState<ItemType[]>(initC);
   const [f, setF] = useState<ItemType[]>(initF);
   const [notRated, setNotRated] = useState<ItemType[]>(initNotRated);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [showMsgBox, setShowMsgBox] = useState<boolean>(false);
   const auth: AuthType | null = useAuth();
   const pathname: string = usePathname();
@@ -65,7 +64,7 @@ export default function TierList({
   }
 
   async function handleUserSave(): Promise<void> {
-    setIsSaving(true); // disable save button temporarily
+    setIsProcessing(true); // disable save button temporarily
 
     const toBeSaved: TierListType = {
       template_id: templateId,
@@ -87,7 +86,7 @@ export default function TierList({
 
     const saved: boolean = await saveTierList(toBeSaved);
 
-    setIsSaving(false); // enable save button
+    setIsProcessing(false); // enable save button
 
     if (saved) {
       if (isCreatePage) {
@@ -124,12 +123,12 @@ export default function TierList({
     }
 
     // OK
-    setIsDeleting(true);
+    setIsProcessing(true);
 
     // allowDelete is true => isListOwner is true => isListPage is true => tierListId !== ''
     const deleted: boolean = await deleteTierList(tierListId);
 
-    setIsDeleting(false);
+    setIsProcessing(false);
 
     if (deleted) {
       location.replace(`/user/${auth!.userId}`);
@@ -218,7 +217,7 @@ export default function TierList({
         <div className="flex justify-center">
           <button
             className="bg-[#3a5795] w-60 py-1 rounded-md hover:bg-[#3a5795b3]"
-            disabled={isSaving}
+            disabled={isProcessing}
             onClick={() => {
               handleSave();
             }}
@@ -231,7 +230,7 @@ export default function TierList({
         <div className="flex justify-center mt-4">
           <button
             className="bg-red-500 w-60 py-1 rounded-md hover:bg-red-600"
-            disabled={isDeleting}
+            disabled={isProcessing}
             onClick={() => {
               handleDelete();
             }}
