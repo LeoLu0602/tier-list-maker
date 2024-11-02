@@ -6,8 +6,14 @@ export const fetchCache = 'force-no-store';
 
 export default async function Page({ params }: { params: { userId: string } }) {
   const userInfo = await getUserInfo(params.userId);
-  const tierLists: { id: string; title: string; poster: string }[] =
-    await getUserTierLists(params.userId);
+  const tierLists: {
+    id: string;
+    created_at: number;
+    title: string;
+    poster: string;
+  }[] = await getUserTierLists(params.userId);
+
+  tierLists.sort((a, b) => b.created_at - a.created_at);
 
   return (
     <>
