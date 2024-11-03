@@ -9,7 +9,8 @@ import {
   signInWithGoogle,
 } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
-import TierListBox from './TierListBox';
+import TierListBox from '@/components/TierListBox';
+import Msg from '@/components/Msg';
 
 export default function TierList({
   userId = '', // userId is set to '' in /create
@@ -43,6 +44,7 @@ export default function TierList({
   const [f, setF] = useState<ItemType[]>(initF);
   const [notRated, setNotRated] = useState<ItemType[]>(initNotRated);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [showMsg, setShowMsg] = useState<boolean>(false);
   const auth: AuthType | null = useAuth();
   const pathname: string = usePathname();
   const isCreatePage: boolean = pathname.startsWith('/create');
@@ -90,7 +92,10 @@ export default function TierList({
       if (isCreatePage) {
         location.replace(`/user/${auth!.userId}`);
       } else {
-        // location.reload();
+        setShowMsg(true);
+        setTimeout(() => {
+          setShowMsg(false);
+        }, 1000);
       }
     }
   }
@@ -162,6 +167,7 @@ export default function TierList({
 
   return (
     <>
+      {showMsg && <Msg msg="Saved!" />}
       <h1 className="mb-8 font-bold text-4xl">{title}</h1>
       <TierListBox
         items={s}
