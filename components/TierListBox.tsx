@@ -31,7 +31,7 @@ export default function TierListBox({
         </div>
       )}
       <ReactSortable
-        className={clsx('flex flex-wrap min-h-20 box-border', {
+        className={clsx('flex flex-wrap min-h-24 box-border', {
           'bg-[#1a1a17]': tier !== 'not-rated',
         })}
         list={items}
@@ -41,7 +41,7 @@ export default function TierListBox({
         disabled={disabled}
       >
         {items.map(({ id, url, description }) => (
-          <img className="h-20" key={id} src={url} alt={description} />
+          <img className="h-24" key={id} src={url} alt={description} />
         ))}
       </ReactSortable>
     </section>
