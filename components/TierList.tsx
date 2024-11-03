@@ -90,7 +90,7 @@ export default function TierList({
       if (isCreatePage) {
         location.replace(`/user/${auth!.userId}`);
       } else {
-        location.reload();
+        // location.reload();
       }
     }
   }
