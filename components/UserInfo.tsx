@@ -5,7 +5,10 @@ export default async function UserInfo({ userId }: { userId: string }) {
 
   return (
     <section className="flex gap-4 items-center mb-8">
-      <img className="w-14 h-14 rounded-full" src={userInfo?.avatarUrl ?? ''} />
+      <img
+        className="w-14 h-14 rounded-full"
+        src={userInfo?.avatarUrl ?? '/person.svg'}
+      />
       <h2 className="font-bold text-2xl">{userInfo?.name ?? ''}</h2>
     </section>
   );
