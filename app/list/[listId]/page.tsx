@@ -1,6 +1,7 @@
 import { TierListType } from '@/types';
 import { getItemsFromIds, getTierList } from '@/app/lib/utils';
 import TierList from '@/components/TierList';
+import UserInfo from '@/components/UserInfo';
 
 export const fetchCache = 'force-no-store';
 
@@ -20,6 +21,7 @@ export default async function Page({ params }: { params: { listId: string } }) {
 
   return (
     <>
+      <UserInfo userId={tierList.user_id} />
       <section>
         <TierList
           userId={tierList.user_id}
