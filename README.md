@@ -6,10 +6,6 @@
 - [Demo](#demo)
 - [Technologies](#technologies)
 - [Setup](#setup)
-- [Approach](#approach)
-- [Status](#status)
-- [Credits](#credits)
-- [License](#license)
 
 ## About
 
@@ -27,11 +23,3 @@ Gravity Falls Character Tier List is chosen for demo because Gravity Falls is my
  - Backend: [Supabase](https://supabase.com/)
 
 ## Setup
-
-## Approach
-
-## Status
-
-## Credits
-
-## License
