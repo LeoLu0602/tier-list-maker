@@ -13,8 +13,13 @@ A simplified version of [TierMaker](https://tiermaker.com/).
 
 ## Demo
 
+### Home Page
 ![demo](./demo//demo%201.png)
+
+### Tier List Page
 ![demo](./demo//demo%202.png)
+
+### User Page
 ![demo](./demo//demo%203.png)
 
 ## Technologies
