@@ -14,8 +14,8 @@ A simplified version of [TierMaker](https://tiermaker.com/).
 ## Demo
 
 ![demo](./demo//demo%201.png)
-
-Gravity Falls Character Tier List is chosen for demo because Gravity Falls is my favorite TV show of all time.
+![demo](./demo//demo%202.png)
+![demo](./demo//demo%203.png)
 
 ## Technologies
 
