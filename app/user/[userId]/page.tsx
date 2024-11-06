@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
 
   return (
     <>
-      <section className="flex gap-4 h-20 items-center">
+      <section className="flex gap-8 h-20 items-center">
         <img
           className="w-20 h-20 rounded-full"
           src={userInfo?.avatarUrl ?? ''}

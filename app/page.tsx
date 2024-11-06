@@ -9,7 +9,7 @@ export default async function Page() {
 
   return (
     <>
-      <section className="flex flex-wrap gap-4">
+      <section className="flex flex-wrap gap-8">
         {templates.map(({ id, poster, title }) => (
           <Template
             key={id}
