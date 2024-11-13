@@ -168,7 +168,9 @@ export default function TierList({
   return (
     <>
       {showMsg && <Msg msg="Saved!" />}
-      <h1 className="mb-8 font-bold text-4xl">{title}</h1>
+      <h1 className="mb-8 font-bold text-4xl hover:text-sky-500">
+        <a href={`/community/${templateId}`}>{title}</a>
+      </h1>
       <TierListBox
         items={s}
         setItems={setS}
