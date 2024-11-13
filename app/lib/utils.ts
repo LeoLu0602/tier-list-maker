@@ -238,4 +238,24 @@ export async function deleteTierList(tierListId: string): Promise<boolean> {
   return true;
 }
 
-export async function getCommunityLists(templateId: string) {}
+export async function getCommunityLists(
+  templateId: string
+): Promise<{ id: string; created_at: number; name: string; avatar: string }[]> {
+  const { data, error } = await supabase
+    .from('tier_list')
+    .select('id, template_id, created_at, user_name, user_avatar')
+    .eq('template_id', templateId);
+
+  if (error) {
+    console.error('Error: getCommunityLists ', error);
+    alert('Error');
+
+    return [];
+  }
+
+  return data.map(
+    ({ id, created_at, user_name: name, user_avatar: avatar }) => {
+      return { id, created_at: new Date(created_at).getTime(), name, avatar };
+    }
+  );
+}
