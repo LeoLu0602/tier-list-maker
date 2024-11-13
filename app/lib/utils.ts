@@ -237,3 +237,5 @@ export async function deleteTierList(tierListId: string): Promise<boolean> {
 
   return true;
 }
+
+export async function getCommunityLists(templateId: string) {}

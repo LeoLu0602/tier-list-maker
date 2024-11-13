@@ -14,6 +14,8 @@ export interface TierListType {
   id?: string;
   created_at?: string;
   user_id: string;
+  user_avatar: string;
+  user_name: string;
   s: string[];
   a: string[];
   b: string[];

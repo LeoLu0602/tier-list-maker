@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { AuthType, ItemType, TierListType } from '@/types';
 import {
   deleteTierList,
+  getUserInfo,
   saveTierList,
   signInWithGoogle,
 } from '@/app/lib/utils';
@@ -69,6 +70,8 @@ export default function TierList({
     const toBeSaved: TierListType = {
       template_id: templateId,
       user_id: auth!.userId,
+      user_avatar: auth!.avatarUrl,
+      user_name: auth!.name,
       s: s.map(({ id }) => id),
       a: a.map(({ id }) => id),
       b: b.map(({ id }) => id),
