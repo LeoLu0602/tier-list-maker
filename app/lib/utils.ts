@@ -22,7 +22,6 @@ export async function signInWithGoogle(redirectTo: string): Promise<void> {
 
   if (error) {
     console.error('Error: signInWithGoogle ', error);
-    alert('Error');
   }
 }
 
@@ -31,7 +30,6 @@ export async function signOut(): Promise<void> {
 
   if (error) {
     console.error('Error: signOut ', error);
-    alert('Error');
   }
 }
 
@@ -44,7 +42,6 @@ export async function getAllTemplates(): Promise<TemplateType[]> {
 
   if (error) {
     console.error('Error: getAllTemplates ', error);
-    alert('Error');
 
     return [];
   }
@@ -66,7 +63,6 @@ export async function getTemplateItems(
 
   if (error) {
     console.error('Error: getTemplateItems ', error);
-    alert('Error');
 
     return [];
   }
@@ -89,7 +85,6 @@ export async function getTemplate(
 
   if (error) {
     console.error('Error: getTemplate ', error);
-    alert('Error');
 
     return null;
   }
@@ -116,7 +111,6 @@ export async function upsertUser({
 
   if (error) {
     console.error('Error: upsertUser ', error);
-    alert('Error');
   }
 }
 
@@ -128,7 +122,6 @@ export async function getUserInfo(userId: string): Promise<AuthType | null> {
 
   if (error) {
     console.error('Error: getUserInfo ', error);
-    alert('Error');
 
     return null;
   }
@@ -151,7 +144,6 @@ export async function saveTierList(tierList: TierListType): Promise<boolean> {
 
   if (error) {
     console.error('Error: saveTierList ', error);
-    alert('Error');
 
     return false;
   }
@@ -171,7 +163,6 @@ export async function getUserTierLists(
 
   if (error) {
     console.error('Error: getUserTierLists ', error);
-    alert('Error');
 
     return [];
   }
@@ -191,7 +182,6 @@ export async function getTierList(
 
   if (error) {
     console.error('Error: getTierList ', error);
-    alert('Error');
 
     return null;
   }
@@ -207,7 +197,6 @@ export async function getItemsFromIds(itemIds: string[]): Promise<ItemType[]> {
 
   if (error) {
     console.error('Error: getItemsFromIds ', error);
-    alert('Error');
 
     return [];
   }
@@ -230,7 +219,6 @@ export async function deleteTierList(tierListId: string): Promise<boolean> {
 
   if (error) {
     console.error('Error: deleteTierList ', error);
-    alert('Error');
 
     return false;
   }
@@ -248,7 +236,6 @@ export async function getCommunityLists(
 
   if (error) {
     console.error('Error: getCommunityLists ', error);
-    alert('Error');
 
     return [];
   }
