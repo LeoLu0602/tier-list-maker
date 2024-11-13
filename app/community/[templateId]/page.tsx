@@ -1,5 +1,6 @@
-import { getCommunityLists } from '@/app/lib/utils';
+import { getCommunityLists, getTemplate } from '@/app/lib/utils';
 import Template from '@/components/Template';
+import { TemplateType } from '@/types';
 
 export const fetchCache = 'force-no-store';
 
@@ -8,6 +9,7 @@ export default async function Page({
 }: {
   params: { templateId: string };
 }) {
+  const template: TemplateType | null = await getTemplate(params.templateId);
   const communityLists: {
     id: string;
     created_at: number;
@@ -19,10 +21,19 @@ export default async function Page({
 
   return (
     <>
-      <section className="mt-16 flex flex-wrap gap-4">
+      {template && (
+        <a
+          className="font-bold text-4xl hover:text-emerald-500"
+          href={`/create/${template.id}`}
+        >
+          {`${template.title}s (${communityLists.length})`}
+        </a>
+      )}
+      <section className="mt-16 flex flex-wrap gap-8">
         {communityLists.map(({ id, name, avatar }) => (
           <a
             className="flex flex-col justify-between items-center w-32 h-32"
+            key={id}
             href={`/list/${id}`}
           >
             <img className="rounded-full w-24 h-24" src={avatar} />
