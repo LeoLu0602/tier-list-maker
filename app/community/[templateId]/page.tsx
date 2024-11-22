@@ -22,10 +22,7 @@ export default async function Page({
   return (
     <>
       {template && (
-        <a
-          className="font-bold text-4xl hover:text-emerald-500"
-          href={`/create/${template.id}`}
-        >
+        <a className="font-bold text-4xl" href={`/create/${template.id}`}>
           {`${template.title}s (${communityLists.length})`}
         </a>
       )}

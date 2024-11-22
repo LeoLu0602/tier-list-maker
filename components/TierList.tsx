@@ -172,10 +172,7 @@ export default function TierList({
     <>
       {showMsg && <Msg msg="Saved!" />}
       <div className="mb-8">
-        <a
-          className="font-bold text-4xl hover:text-emerald-500"
-          href={`/community/${templateId}`}
-        >
+        <a className="font-bold text-4xl" href={`/community/${templateId}`}>
           {title}
         </a>
       </div>
