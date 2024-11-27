@@ -8,11 +8,11 @@ export default function Template({
   title: string;
 }) {
   return (
-    <a className="w-48 h-48 relative hover:-translate-y-2" href={link}>
+    <a className="w-40 h-40 relative block shrink-0" href={link}>
       <img className="h-full w-full object-cover" src={poster} />
-      <h2 className="bg-black opacity-85 absolute bottom-0 left-0 w-full py-1 text-center">
+      <div className="bg-black opacity-85 absolute bottom-0 left-0 w-full py-1 text-center">
         {title}
-      </h2>
+      </div>
     </a>
   );
 }
