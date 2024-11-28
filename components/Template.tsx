@@ -1,18 +1,18 @@
 export default function Template({
-  link,
-  poster,
-  title,
+    link,
+    poster,
+    title,
 }: {
-  link: string;
-  poster: string;
-  title: string;
+    link: string;
+    poster: string;
+    title: string;
 }) {
-  return (
-    <a className="w-40 h-40 relative block shrink-0" href={link}>
-      <img className="h-full w-full object-cover" src={poster} />
-      <div className="bg-black opacity-85 absolute bottom-0 left-0 w-full py-1 text-center">
-        {title}
-      </div>
-    </a>
-  );
+    return (
+        <a className='relative block h-40 w-40 shrink-0' href={link}>
+            <img className='h-full w-full object-cover' src={poster} />
+            <div className='absolute bottom-0 left-0 w-full bg-black py-1 text-center opacity-85'>
+                {title}
+            </div>
+        </a>
+    );
 }
