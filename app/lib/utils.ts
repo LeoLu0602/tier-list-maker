@@ -261,8 +261,6 @@ export async function getCommunityLists(
     );
 }
 
-// Return path to the file if upload is successful.
-// Return null if upload fails.
 export async function uploadScreenshot(blob: Blob): Promise<string | null> {
     const { data, error } = await supabase.storage
         .from('screenshots')
@@ -277,8 +275,19 @@ export async function uploadScreenshot(blob: Blob): Promise<string | null> {
     return data.path;
 }
 
-// Return url of the file if retrieval is successful.
-// Return null if retrieval fails.
+export async function updateScreenshot(
+    path: string,
+    blob: Blob
+): Promise<void> {
+    const { error } = await supabase.storage
+        .from('screenshots')
+        .update(path, blob);
+
+    if (error) {
+        console.error('Error: updateScreenshot ', error);
+    }
+}
+
 export async function retrieveScreenshotUrl(
     path: string
 ): Promise<string | null> {

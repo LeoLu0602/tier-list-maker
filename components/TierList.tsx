@@ -156,8 +156,6 @@ export default function TierList({
         }
     }
 
-    // Return url of the screenshot if the whole process is successful.
-    // Return null if something went wrong.
     async function takeScreenshotAndUpload(): Promise<string | null> {
         const blob: Blob | null = await takeScreenshot();
 
