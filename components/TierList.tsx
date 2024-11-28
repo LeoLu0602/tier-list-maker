@@ -97,8 +97,7 @@ export default function TierList({
         };
 
         // Update existing tier list.
-        // tierListId is set to '' in /create.
-        if (tierListId !== '') {
+        if (isListPage) {
             toBeSaved.id = tierListId;
         }
 
