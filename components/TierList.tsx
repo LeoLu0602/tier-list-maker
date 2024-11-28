@@ -159,13 +159,11 @@ export default function TierList({
     // Return url of the screenshot if the whole process is successful.
     // Return null if something went wrong.
     async function takeScreenshotAndUpload(): Promise<string | null> {
-        if (!ref.current) {
+        const blob: Blob | null = await takeScreenshot();
+
+        if (!blob) {
             return null;
         }
-
-        const dataUrl: string = await toJpeg(ref.current);
-        const res: Response = await fetch(dataUrl);
-        const blob: Blob = await res.blob();
 
         // Supabase doesn't provide url on upload.
         // Therefore, two calls are required.
@@ -179,6 +177,25 @@ export default function TierList({
         const url: string | null = await retrieveScreenshotUrl(path);
 
         return url;
+    }
+
+    async function takeScreenshot(): Promise<Blob | null> {
+        if (!ref.current) {
+            return null;
+        }
+
+        try {
+            const dataUrl: string = await toJpeg(ref.current);
+            const res: Response = await fetch(dataUrl);
+            const blob: Blob = await res.blob();
+
+            return blob;
+        } catch (error) {
+            console.error('Error: takeScreenshot ', error);
+            alert('Error!');
+
+            return null;
+        }
     }
 
     useEffect(() => {
