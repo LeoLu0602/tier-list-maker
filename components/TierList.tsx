@@ -233,7 +233,7 @@ export default function TierList({
                     className='text-4xl font-bold'
                     href={`/community/${templateId}`}
                 >
-                    {title}
+                    {title} Tier Lists
                 </a>
             </section>
             <section className='mb-8' ref={ref}>
