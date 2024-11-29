@@ -156,14 +156,15 @@ export default function TierList({
         // delete button is shown => in /list => tierListId is not null
         const deleted: boolean = await deleteTierList(tierListId!);
 
-        setIsProcessing(false);
-
         if (deleted) {
             await deleteScreenshot(screenshotPath!);
+
             location.replace(`/user/${auth!.userId}`);
         } else {
             alert('Deletion failed!');
         }
+
+        setIsProcessing(false);
     }
 
     function handleSuccessfulSave(): void {
@@ -293,14 +294,17 @@ export default function TierList({
                             handleSave();
                         }}
                     >
-                        {isProcessing ? 'Saving...' : 'Save'}
+                        Save
                     </button>
                 </section>
             )}
             {isListOwner && (
                 <section className='mt-4 flex justify-center'>
                     <button
-                        className='w-60 rounded-md bg-red-500 py-1 hover:bg-red-600'
+                        className={clsx('w-60 rounded-md py-1', {
+                            'bg-red-500 hover:bg-red-600': !isProcessing,
+                            'bg-red-600': isProcessing,
+                        })}
                         disabled={isProcessing}
                         onClick={() => {
                             handleDelete();
