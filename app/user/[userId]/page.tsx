@@ -22,12 +22,12 @@ export default async function Page({ params }: { params: { userId: string } }) {
                     className='h-20 w-20 rounded-full'
                     src={userInfo?.avatarUrl ?? ''}
                 />
-                <div className='flex h-full flex-col items-start justify-between'>
+                <section className='flex h-full flex-col items-start justify-between'>
                     <h2 className='text-4xl font-bold'>
                         {userInfo?.name ?? ''}
                     </h2>
                     <SignOutBtn userId={params.userId} />
-                </div>
+                </section>
             </section>
             <section className='mt-16 flex flex-wrap justify-between'>
                 {tierLists.map(({ id, title, preview }) => (

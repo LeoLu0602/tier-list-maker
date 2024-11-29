@@ -11,6 +11,8 @@ import {
     signInWithGoogle,
     uploadScreenshot,
     retrieveScreenshotUrl,
+    updateScreenshot,
+    deleteScreenshot,
 } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
 import TierListBox from '@/components/TierListBox';
@@ -22,6 +24,7 @@ export default function TierList({
     templateId,
     title,
     preview = null, // preview is not provided from /create
+    screenshotPath = null, // screenshotPath is not provided from /create
     initS,
     initA,
     initB,
@@ -34,6 +37,7 @@ export default function TierList({
     templateId: string;
     title: string;
     preview?: string | null;
+    screenshotPath?: string | null;
     initS: ItemType[];
     initA: ItemType[];
     initB: ItemType[];
@@ -73,8 +77,8 @@ export default function TierList({
         setIsProcessing(true); // Disable save button temporarily.
 
         const blob: Blob | null = await takeScreenshot();
-        let url: string | null = null;
-        let path: string | null = null;
+        let url: string | null = preview;
+        let path: string | null = screenshotPath;
 
         if (isCreatePage) {
             // Upload screenshot if user is in /create.
@@ -84,8 +88,10 @@ export default function TierList({
             // One for path and the other for url.
             path = blob ? await uploadScreenshot(blob) : null;
             url = path ? await retrieveScreenshotUrl(path) : null;
-        } else {
-            // Update screenshot if user is in /list
+        } else if (blob) {
+            // Update screenshot if user is in /list.
+
+            await updateScreenshot(screenshotPath!, blob);
         }
 
         if (!blob || !path || !url) {
@@ -148,10 +154,12 @@ export default function TierList({
 
     async function handleDelete(): Promise<void> {
         if (!confirm('Are you sure you want to delete this list?')) {
-            return; // Cancel.
+            // Cancel.
+            return;
         }
 
-        setIsProcessing(true); // OK.
+        // OK.
+        setIsProcessing(true);
 
         // delete button is shown => in /list => tierListId is not null
         const deleted: boolean = await deleteTierList(tierListId!);
@@ -159,6 +167,7 @@ export default function TierList({
         setIsProcessing(false);
 
         if (deleted) {
+            await deleteScreenshot(screenshotPath!);
             location.replace(`/user/${auth!.userId}`);
         } else {
             alert('Deletion failed!');

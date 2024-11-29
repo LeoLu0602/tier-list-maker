@@ -1,4 +1,4 @@
-export default function Template({
+export default function Preview({
     link,
     poster,
     title,
@@ -8,12 +8,15 @@ export default function Template({
     title: string;
 }) {
     return (
-        <section className='lg:w-1/2 w-full p-1'>
+        <section className='w-full p-1 lg:w-1/2'>
             <a href={link}>
-                <img className='w-full h-72 object-left-top object-cover' src={poster} />
-                <div className='w-full overflow-hidden text-ellipsis whitespace-nowrap bg-black p-4'>
+                <img
+                    className='h-72 w-full object-cover object-left-top'
+                    src={poster}
+                />
+                <section className='w-full overflow-hidden text-ellipsis whitespace-nowrap bg-black p-4'>
                     {title}
-                </div>
+                </section>
             </a>
         </section>
     );

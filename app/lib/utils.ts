@@ -288,6 +288,14 @@ export async function updateScreenshot(
     }
 }
 
+export async function deleteScreenshot(path: string): Promise<void> {
+    const { error } = await supabase.storage.from('screenshots').remove([path]);
+
+    if (error) {
+        console.error('Error: deleteScreenshot ', error);
+    }
+}
+
 export async function retrieveScreenshotUrl(path: string): Promise<string> {
     const { data } = supabase.storage.from('screenshots').getPublicUrl(path);
 
