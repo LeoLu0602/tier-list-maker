@@ -24,7 +24,7 @@ A simplified version of [TierMaker](https://tiermaker.com/).
 
 ## Technologies
 
- - Frontend: [Next.js](https://nextjs.org/), [SortableJS](https://sortablejs.github.io/Sortable/)
+ - Frontend: [Next.js](https://nextjs.org/), [SortableJS](https://sortablejs.github.io/Sortable/), [html-to-image](https://www.npmjs.com/package/html-to-image)
  - Backend: [Supabase](https://supabase.com/)
 
 ## Setup
