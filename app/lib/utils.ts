@@ -158,11 +158,11 @@ export async function saveTierList(tierList: TierListType): Promise<boolean> {
 export async function getUserTierLists(
     userId: string
 ): Promise<
-    { id: string; created_at: number; title: string; poster: string }[]
+    { id: string; created_at: number; title: string; preview: string }[]
 > {
     const { data, error } = await supabase
         .from('tier_list')
-        .select('user_id, id, created_at, title, poster')
+        .select('user_id, id, created_at, title, preview')
         .eq('user_id', userId);
 
     if (error) {
@@ -171,12 +171,12 @@ export async function getUserTierLists(
         return [];
     }
 
-    return data.map(({ id, created_at, title, poster }) => {
+    return data.map(({ id, created_at, title, preview }) => {
         return {
             id,
             created_at: new Date(created_at).getTime(),
             title,
-            poster,
+            preview,
         };
     });
 }
@@ -288,9 +288,7 @@ export async function updateScreenshot(
     }
 }
 
-export async function retrieveScreenshotUrl(
-    path: string
-): Promise<string | null> {
+export async function retrieveScreenshotUrl(path: string): Promise<string> {
     const { data } = supabase.storage.from('screenshots').getPublicUrl(path);
 
     return data.publicUrl;

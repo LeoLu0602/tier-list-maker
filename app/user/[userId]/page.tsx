@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { userId: string } }) {
         id: string;
         created_at: number;
         title: string;
-        poster: string;
+        preview: string;
     }[] = await getUserTierLists(params.userId);
 
     tierLists.sort((a, b) => b.created_at - a.created_at);
@@ -30,11 +30,11 @@ export default async function Page({ params }: { params: { userId: string } }) {
                 </div>
             </section>
             <section className='mt-16 flex flex-wrap justify-between'>
-                {tierLists.map(({ id, title, poster }) => (
+                {tierLists.map(({ id, title, preview }) => (
                     <Preview
                         key={id}
                         link={`/list/${id}`}
-                        poster={poster}
+                        poster={preview}
                         title={title}
                     />
                 ))}

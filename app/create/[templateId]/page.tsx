@@ -1,36 +1,31 @@
 import { getTemplate, getTemplateItems } from '@/app/lib/utils';
-import { ItemType } from '@/types';
+import { ItemType, TemplateType } from '@/types';
 import TierList from '@/components/TierList';
 
 export const fetchCache = 'force-no-store';
 
 export default async function Page({
-  params,
+    params,
 }: {
-  params: { templateId: string };
+    params: { templateId: string };
 }) {
-  const { title, poster }: { title: string; poster: string } =
-    (await getTemplate(params.templateId)) ?? {
-      title: '',
-      poster: '',
-    };
-  const templateItems: ItemType[] = await getTemplateItems(params.templateId);
+    const template: TemplateType | null = await getTemplate(params.templateId);
+    const templateItems: ItemType[] = await getTemplateItems(params.templateId);
 
-  return (
-    <>
-      <section>
+    if (!template) {
+        return <></>;
+    }
+
+    return (
         <TierList
-          templateId={params.templateId}
-          title={title}
-          poster={poster}
-          initS={[]}
-          initA={[]}
-          initB={[]}
-          initC={[]}
-          initF={[]}
-          initNotRated={templateItems}
+            templateId={params.templateId}
+            title={template.title}
+            initS={[]}
+            initA={[]}
+            initB={[]}
+            initC={[]}
+            initF={[]}
+            initNotRated={templateItems}
         />
-      </section>
-    </>
-  );
+    );
 }

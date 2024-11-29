@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { toJpeg } from 'html-to-image';
+import clsx from 'clsx';
 import { AuthType, ItemType, TierListType } from '@/types';
 import {
     deleteTierList,
@@ -16,11 +17,11 @@ import TierListBox from '@/components/TierListBox';
 import Msg from '@/components/Msg';
 
 export default function TierList({
-    userId = '', // userId is set to '' in /create
-    tierListId = '', // tierListId is set to '' in /create
+    userId = null, // userId is not provided from /create
+    tierListId = null, // tierListId is not provided from /create
     templateId,
     title,
-    poster,
+    preview = null, // preview is not provided from /create
     initS,
     initA,
     initB,
@@ -28,11 +29,11 @@ export default function TierList({
     initF,
     initNotRated,
 }: {
-    userId?: string;
-    tierListId?: string;
+    userId?: string | null;
+    tierListId?: string | null;
     templateId: string;
     title: string;
-    poster: string;
+    preview?: string | null;
     initS: ItemType[];
     initA: ItemType[];
     initB: ItemType[];
@@ -56,7 +57,6 @@ export default function TierList({
     const isListOwner: boolean =
         isListPage && auth !== null && auth.userId === userId;
     const allowSave: boolean = isCreatePage || isListOwner;
-    const allowDelete: boolean = isListOwner;
     const disabled: boolean = !allowSave;
 
     async function handleSave(): Promise<void> {
@@ -68,15 +68,28 @@ export default function TierList({
     }
 
     async function handleUserSave(): Promise<void> {
-        // This function is called handle"User"Save.
-        // auth is not null.
+        // This function is called handle"User"Save. auth is not null.
 
         setIsProcessing(true); // Disable save button temporarily.
 
-        const posterUrl: string | null = await takeScreenshotAndUpload();
+        const blob: Blob | null = await takeScreenshot();
+        let url: string | null = null;
+        let path: string | null = null;
 
-        if (!posterUrl) {
-            setIsProcessing(false);
+        if (isCreatePage) {
+            // Upload screenshot if user is in /create.
+
+            // Supabase doesn't provide url on upload.
+            // Therefore, two calls are required.
+            // One for path and the other for url.
+            path = blob ? await uploadScreenshot(blob) : null;
+            url = path ? await retrieveScreenshotUrl(path) : null;
+        } else {
+            // Update screenshot if user is in /list
+        }
+
+        if (!blob || !path || !url) {
+            setIsProcessing(false); // Enable save button.
 
             return;
         }
@@ -93,17 +106,21 @@ export default function TierList({
             f: f.map(({ id }) => id),
             not_rated: notRated.map(({ id }) => id),
             title,
-            poster: posterUrl,
+            preview: url,
+            screenshot_path: path,
         };
 
         // Update existing tier list.
-        if (isListPage) {
+        // If tier list exists, tierListId is not null.
+        // saveTierList uses upsert.
+        // Primary keys must be included to use upsert.
+        if (tierListId) {
             toBeSaved.id = tierListId;
         }
 
         const saved: boolean = await saveTierList(toBeSaved);
 
-        setIsProcessing(false); // Enable save button
+        setIsProcessing(false); // Enable save button.
 
         if (saved) {
             if (isCreatePage) {
@@ -138,14 +155,13 @@ export default function TierList({
 
     async function handleDelete(): Promise<void> {
         if (!confirm('Are you sure you want to delete this list?')) {
-            return; // Cancel
+            return; // Cancel.
         }
 
-        // OK
-        setIsProcessing(true);
+        setIsProcessing(true); // OK.
 
-        // allowDelete is true => isListOwner is true => isListPage is true => tierListId !== ''
-        const deleted: boolean = await deleteTierList(tierListId);
+        // delete button is shown => in /list => tierListId is not null
+        const deleted: boolean = await deleteTierList(tierListId!);
 
         setIsProcessing(false);
 
@@ -154,27 +170,6 @@ export default function TierList({
         } else {
             alert('Deletion failed!');
         }
-    }
-
-    async function takeScreenshotAndUpload(): Promise<string | null> {
-        const blob: Blob | null = await takeScreenshot();
-
-        if (!blob) {
-            return null;
-        }
-
-        // Supabase doesn't provide url on upload.
-        // Therefore, two calls are required.
-        // One for path and the other for url.
-        const path: string | null = await uploadScreenshot(blob);
-
-        if (!path) {
-            return null;
-        }
-
-        const url: string | null = await retrieveScreenshotUrl(path);
-
-        return url;
     }
 
     async function takeScreenshot(): Promise<Blob | null> {
@@ -281,21 +276,24 @@ export default function TierList({
             />
 
             <div className='h-8' />
-            {!disabled && (
-                <div className='flex justify-center'>
+            {allowSave && (
+                <section className='flex justify-center'>
                     <button
-                        className='w-60 rounded-md bg-[#3a5795] py-1 hover:bg-[#3a5795b3]'
+                        className={clsx('w-60 rounded-md py-1', {
+                            'bg-[#3a5795] hover:bg-[#3a5795b3]': !isProcessing,
+                            'bg-[#3a5795b3]': isProcessing,
+                        })}
                         disabled={isProcessing}
                         onClick={() => {
                             handleSave();
                         }}
                     >
-                        Save
+                        {isProcessing ? 'Saving...' : 'Save'}
                     </button>
-                </div>
+                </section>
             )}
-            {allowDelete && (
-                <div className='mt-4 flex justify-center'>
+            {isListOwner && (
+                <section className='mt-4 flex justify-center'>
                     <button
                         className='w-60 rounded-md bg-red-500 py-1 hover:bg-red-600'
                         disabled={isProcessing}
@@ -305,13 +303,8 @@ export default function TierList({
                     >
                         Delete
                     </button>
-                </div>
+                </section>
             )}
         </>
     );
-}
-function retrieveUrl(
-    path: string | null
-): string | PromiseLike<string | null> | null {
-    throw new Error('Function not implemented.');
 }

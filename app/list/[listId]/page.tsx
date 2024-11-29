@@ -6,37 +6,37 @@ import UserInfo from '@/components/UserInfo';
 export const fetchCache = 'force-no-store';
 
 export default async function Page({ params }: { params: { listId: string } }) {
-  const tierList: TierListType | null = await getTierList(params.listId);
+    const tierList: TierListType | null = await getTierList(params.listId);
 
-  if (!tierList) {
-    return <></>;
-  }
+    if (!tierList) {
+        return <></>;
+    }
 
-  const initS = await getItemsFromIds(tierList.s);
-  const initA = await getItemsFromIds(tierList.a);
-  const initB = await getItemsFromIds(tierList.b);
-  const initC = await getItemsFromIds(tierList.c);
-  const initF = await getItemsFromIds(tierList.f);
-  const initNotRated = await getItemsFromIds(tierList.not_rated);
+    const initS = await getItemsFromIds(tierList.s);
+    const initA = await getItemsFromIds(tierList.a);
+    const initB = await getItemsFromIds(tierList.b);
+    const initC = await getItemsFromIds(tierList.c);
+    const initF = await getItemsFromIds(tierList.f);
+    const initNotRated = await getItemsFromIds(tierList.not_rated);
 
-  return (
-    <>
-      <UserInfo userId={tierList.user_id} />
-      <section>
-        <TierList
-          userId={tierList.user_id}
-          tierListId={tierList.id}
-          templateId={tierList.template_id}
-          title={tierList.title}
-          poster={tierList.poster}
-          initS={initS}
-          initA={initA}
-          initB={initB}
-          initC={initC}
-          initF={initF}
-          initNotRated={initNotRated}
-        />
-      </section>
-    </>
-  );
+    return (
+        <>
+            <UserInfo userId={tierList.user_id} />
+            <section>
+                <TierList
+                    userId={tierList.user_id}
+                    tierListId={tierList.id}
+                    templateId={tierList.template_id}
+                    title={tierList.title}
+                    preview={tierList.preview}
+                    initS={initS}
+                    initA={initA}
+                    initB={initB}
+                    initC={initC}
+                    initF={initF}
+                    initNotRated={initNotRated}
+                />
+            </section>
+        </>
+    );
 }
