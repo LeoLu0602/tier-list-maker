@@ -28,7 +28,6 @@ export default async function Page({ params }: { params: { listId: string } }) {
                     tierListId={tierList.id}
                     templateId={tierList.template_id}
                     title={tierList.title}
-                    preview={tierList.preview}
 					screenshotPath={tierList.screenshot_path}
                     initS={initS}
                     initA={initA}

@@ -275,19 +275,6 @@ export async function uploadScreenshot(blob: Blob): Promise<string | null> {
     return data.path;
 }
 
-export async function updateScreenshot(
-    path: string,
-    blob: Blob
-): Promise<void> {
-    const { error } = await supabase.storage
-        .from('screenshots')
-        .update(path, blob);
-
-    if (error) {
-        console.error('Error: updateScreenshot ', error);
-    }
-}
-
 export async function deleteScreenshot(path: string): Promise<void> {
     const { error } = await supabase.storage.from('screenshots').remove([path]);
 

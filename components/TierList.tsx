@@ -11,7 +11,6 @@ import {
     signInWithGoogle,
     uploadScreenshot,
     retrieveScreenshotUrl,
-    updateScreenshot,
     deleteScreenshot,
 } from '@/app/lib/utils';
 import { useAuth } from '@/app/contexts/AuthContext';
@@ -23,7 +22,6 @@ export default function TierList({
     tierListId = null, // tierListId is not provided from /create
     templateId,
     title,
-    preview = null, // preview is not provided from /create
     screenshotPath = null, // screenshotPath is not provided from /create
     initS,
     initA,
@@ -36,7 +34,6 @@ export default function TierList({
     tierListId?: string | null;
     templateId: string;
     title: string;
-    preview?: string | null;
     screenshotPath?: string | null;
     initS: ItemType[];
     initA: ItemType[];
@@ -77,26 +74,23 @@ export default function TierList({
         setIsProcessing(true); // Disable save button temporarily.
 
         const blob: Blob | null = await takeScreenshot();
-        let url: string | null = preview;
-        let path: string | null = screenshotPath;
 
-        if (isCreatePage) {
-            // Upload screenshot if user is in /create.
-
-            // Supabase doesn't provide url on upload.
-            // Therefore, two calls are required.
-            // One for path and the other for url.
-            path = blob ? await uploadScreenshot(blob) : null;
-            url = path ? await retrieveScreenshotUrl(path) : null;
-        } else if (blob) {
-            // Update screenshot if user is in /list.
-
-            await updateScreenshot(screenshotPath!, blob);
+        if (isListPage) {
+            // Delete old screenshot if user is in /list.
+            await deleteScreenshot(screenshotPath!);
         }
 
-        if (!blob || !path || !url) {
-            setIsProcessing(false); // Enable save button.
+        // Supabase doesn't provide url on upload.
+        // Therefore, two calls are required to get both path and url.
+        const newScreenshotPath: string | null = blob
+            ? await uploadScreenshot(blob)
+            : null;
+        const newPreview: string | null = newScreenshotPath
+            ? await retrieveScreenshotUrl(newScreenshotPath)
+            : null;
 
+        if (!newPreview) {
+            setIsProcessing(false); // Enable save button.
             return;
         }
 
@@ -112,14 +106,12 @@ export default function TierList({
             f: f.map(({ id }) => id),
             not_rated: notRated.map(({ id }) => id),
             title,
-            preview: url,
-            screenshot_path: path,
+            preview: newPreview,
+            screenshot_path: newScreenshotPath!,
         };
 
-        // Update existing tier list.
-        // If tier list exists, tierListId is not null.
         // saveTierList uses upsert.
-        // Primary keys must be included to use upsert.
+        // Primary keys must be included to use upsert to update.
         if (tierListId) {
             toBeSaved.id = tierListId;
         }
