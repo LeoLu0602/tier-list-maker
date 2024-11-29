@@ -9,7 +9,7 @@
 
 ## About
 
-A simplified version of [TierMaker](https://tiermaker.com/).
+A tier list maker inspired by [TierMaker](https://tiermaker.com/).
 
 ## Demo
 
