@@ -120,18 +120,11 @@ export default function TierList({
 
         const saved: boolean = await saveTierList(toBeSaved);
 
-        setIsProcessing(false); // Enable save button.
-
         if (saved) {
-            if (isCreatePage) {
-                location.replace(`/user/${auth!.userId}`);
-            } else {
-                setShowMsg(true);
-                setTimeout(() => {
-                    setShowMsg(false);
-                }, 1000);
-            }
+            handleSuccessfulSave();
         }
+
+        setIsProcessing(false); // Enable save button.
     }
 
     async function handleGuestSave(): Promise<void> {
@@ -169,6 +162,17 @@ export default function TierList({
             location.replace(`/user/${auth!.userId}`);
         } else {
             alert('Deletion failed!');
+        }
+    }
+
+    function handleSuccessfulSave(): void {
+        if (isCreatePage) {
+            location.replace(`/user/${auth!.userId}`);
+        } else {
+            setShowMsg(true);
+            setTimeout(() => {
+                setShowMsg(false);
+            }, 1000);
         }
     }
 
