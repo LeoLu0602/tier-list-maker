@@ -5,7 +5,7 @@
 -   [About](#about)
 -   [Demo](#demo)
 -   [Technologies](#technologies)
--   [Comparison With TierMaker](#comparison-with-tiermaker)
+-   [What Tier List Maker Does Better Than TierMaker](#what-tier-list-maker-does-better-than-tiermaker)
 
 ## About
 
@@ -34,4 +34,4 @@ A tier list maker inspired by [TierMaker](https://tiermaker.com/).
 -   Frontend: [Next.js](https://nextjs.org/), [SortableJS](https://sortablejs.github.io/Sortable/), [html-to-image](https://www.npmjs.com/package/html-to-image)
 -   Backend: [Supabase](https://supabase.com/)
 
-## Comparison With TierMaker
+## What Tier List Maker Does Better Than TierMaker
