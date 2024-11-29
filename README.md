@@ -5,7 +5,7 @@
 -   [About](#about)
 -   [Demo](#demo)
 -   [Technologies](#technologies)
--   [Setup](#setup)
+-   [Comparison With TierMaker](#comparison-with-tiermaker)
 
 ## About
 
@@ -34,4 +34,4 @@ A simplified version of [TierMaker](https://tiermaker.com/).
 -   Frontend: [Next.js](https://nextjs.org/), [SortableJS](https://sortablejs.github.io/Sortable/), [html-to-image](https://www.npmjs.com/package/html-to-image)
 -   Backend: [Supabase](https://supabase.com/)
 
-## Setup
+## Comparison With TierMaker
