@@ -7,24 +7,24 @@ import { useAuth, useAuthDispatch } from '@/app/contexts/AuthContext';
 import { signOut } from '@/app/lib/utils';
 
 export default function SignOutBtn({ userId }: { userId: string }) {
-  const auth: AuthType | null = useAuth();
-  const dispatch: Dispatch<ActionType> = useAuthDispatch();
-  const router = useRouter();
+    const auth: AuthType | null = useAuth();
+    const dispatch: Dispatch<ActionType> = useAuthDispatch();
+    const router = useRouter();
 
-  return (
-    <>
-      {auth && auth.userId === userId && (
-        <button
-          className="text-base bg-rose-500 rounded-md h-8 w-20"
-          onClick={async () => {
-            await signOut();
-            dispatch({ type: 'sign-out' });
-            router.push('/');
-          }}
-        >
-          Sign out
-        </button>
-      )}
-    </>
-  );
+    return (
+        <>
+            {auth && auth.userId === userId && (
+                <button
+                    className='h-8 w-20 rounded-md bg-rose-500 text-base'
+                    onClick={async () => {
+                        await signOut();
+                        dispatch({ type: 'sign-out' });
+                        router.push('/');
+                    }}
+                >
+                    Sign out
+                </button>
+            )}
+        </>
+    );
 }

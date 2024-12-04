@@ -56,8 +56,7 @@ export default function TierList({
     const isListPage: boolean = pathname.startsWith('/list');
     const isListOwner: boolean =
         isListPage && auth !== null && auth.userId === userId;
-    const allowSave: boolean = isCreatePage || isListOwner;
-    const disabled: boolean = !allowSave;
+    const disabled: boolean = !isCreatePage && !isListOwner;
 
     async function handleSave(): Promise<void> {
         if (auth) {
@@ -277,7 +276,7 @@ export default function TierList({
             />
 
             <div className='h-8' />
-            {allowSave && (
+            {!disabled && (
                 <section className='flex justify-center'>
                     <button
                         className={clsx('w-60 rounded-md py-1', {
