@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { toJpeg } from 'html-to-image';
@@ -223,12 +224,12 @@ export default function TierList({
     return (
         <>
             <section className='mb-8'>
-                <a
+                <Link
                     className='text-4xl font-bold'
                     href={`/community/${templateId}`}
                 >
                     {title} Tier Lists
-                </a>
+                </Link>
             </section>
             <section className='mb-8' ref={ref}>
                 <TierListBox

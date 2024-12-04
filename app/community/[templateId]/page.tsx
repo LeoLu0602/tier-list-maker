@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { getCommunityLists, getTemplate } from '@/app/lib/utils';
 import { TemplateType, TierListType } from '@/types';
 import Preview from '@/components/Preview';
@@ -21,12 +22,12 @@ export default async function Page({
     return (
         <>
             {template && (
-                <a
+                <Link
                     className='text-3xl font-bold'
                     href={`/create/${template.id}`}
                 >
                     {template.title} Tier Lists
-                </a>
+                </Link>
             )}
             <section className='mt-16 flex flex-wrap justify-between'>
                 {communityLists.map(({ id, preview, title }) => (

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Preview({
     link,
     poster,
@@ -9,7 +11,7 @@ export default function Preview({
 }) {
     return (
         <section className='w-full p-1 lg:w-1/2'>
-            <a href={link}>
+            <Link href={link}>
                 <img
                     className='h-72 w-full object-cover object-left-top'
                     src={poster}
@@ -17,7 +19,7 @@ export default function Preview({
                 <section className='w-full overflow-hidden text-ellipsis whitespace-nowrap bg-black p-4'>
                     {title}
                 </section>
-            </a>
+            </Link>
         </section>
     );
 }
