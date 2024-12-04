@@ -56,7 +56,7 @@ export default function TierList({
     const isListPage: boolean = pathname.startsWith('/list');
     const isListOwner: boolean =
         isListPage && auth !== null && auth.userId === userId;
-    const disabled: boolean = !isCreatePage && !isListOwner;
+    const disabled: boolean = !(isCreatePage || isListOwner); // Is save button disabled.
 
     async function handleSave(): Promise<void> {
         if (auth) {
@@ -267,44 +267,39 @@ export default function TierList({
                     disabled={disabled}
                 />
             </section>
-            <TierListBox
-                items={notRated}
-                setItems={setNotRated}
-                tier='not-rated'
-                color=''
-                disabled={disabled}
-            />
-
-            <div className='h-8' />
-            {!disabled && (
+            <section className='mb-8'>
+                <TierListBox
+                    items={notRated}
+                    setItems={setNotRated}
+                    tier='not-rated'
+                    color=''
+                    disabled={disabled}
+                />
+            </section>
+            {isProcessing && (
+                <section className='flex justify-center'>Processing...</section>
+            )}
+            {!isProcessing && isListOwner && (
+                <button
+                    className='mb-8 text-[#b7b7b7]'
+                    disabled={isProcessing}
+                    onClick={() => {
+                        handleDelete();
+                    }}
+                >
+                    Delete this tier list
+                </button>
+            )}
+            {!isProcessing && !disabled && (
                 <section className='flex justify-center'>
                     <button
-                        className={clsx('w-60 rounded-md py-1', {
-                            'bg-[#3a5795] hover:bg-[#3a5795b3]': !isProcessing,
-                            'bg-[#3a5795b3]': isProcessing,
-                        })}
+                        className='w-60 rounded-md bg-[#3a5795] py-1 hover:bg-[#3a5795b3]'
                         disabled={isProcessing}
                         onClick={() => {
                             handleSave();
                         }}
                     >
                         Save
-                    </button>
-                </section>
-            )}
-            {isListOwner && (
-                <section className='mt-4 flex justify-center'>
-                    <button
-                        className={clsx('w-60 rounded-md py-1', {
-                            'bg-red-500 hover:bg-red-600': !isProcessing,
-                            'bg-red-600': isProcessing,
-                        })}
-                        disabled={isProcessing}
-                        onClick={() => {
-                            handleDelete();
-                        }}
-                    >
-                        Delete
                     </button>
                 </section>
             )}
