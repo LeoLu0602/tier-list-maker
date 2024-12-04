@@ -22,12 +22,14 @@ export default async function Page({
     return (
         <>
             {template && (
-                <Link
-                    className='text-3xl font-bold'
-                    href={`/create/${template.id}`}
-                >
-                    {template.title} Tier Lists
-                </Link>
+                <>
+                    <h1 className='text-3xl font-bold mb-4'>
+                        {template.title} Tier Lists
+                    </h1>
+                    <Link className='text-sky-500' href={`/create/${template.id}`}>
+                        Create this tier list
+                    </Link>
+                </>
             )}
             <section className='mt-16 flex flex-wrap justify-between'>
                 {communityLists.map(({ id, preview, title }) => (
