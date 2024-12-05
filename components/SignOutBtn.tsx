@@ -19,7 +19,7 @@ export default function SignOutBtn({ userId }: { userId: string }) {
                     onClick={async () => {
                         await signOut();
                         dispatch({ type: 'sign-out' });
-                        router.push('/');
+                    window.location.replace('/');
                     }}
                 >
                     Sign out

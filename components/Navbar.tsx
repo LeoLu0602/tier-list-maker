@@ -24,10 +24,8 @@ export default function Navbar() {
                         ) : (
                             <button
                                 className='text-base'
-                                onClick={async () => {
-                                    await signInWithGoogle(
-                                        window.location.origin
-                                    );
+                                onClick={() => {
+                                    signInWithGoogle(window.location.origin);
                                 }}
                             >
                                 Sign in

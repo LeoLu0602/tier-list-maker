@@ -22,8 +22,12 @@ export default async function Page({ params }: { params: { userId: string } }) {
                     className='h-20 w-20 rounded-full'
                     src={userInfo?.avatarUrl ?? ''}
                 />
-                <h1 className='text-4xl font-bold'>{userInfo?.name ?? ''}</h1>
-                <SignOutBtn userId={params.userId} />
+                <section className='flex h-20 flex-col justify-center gap-2'>
+                    <h1 className='text-4xl font-bold'>
+                        {userInfo?.name ?? ''}
+                    </h1>
+                    <SignOutBtn userId={params.userId} />
+                </section>
             </section>
             <section className='mt-16 flex flex-wrap justify-between'>
                 {tierLists.map(({ id, title, preview }) => (
