@@ -59,7 +59,7 @@ export default function TierList({
     const disabled: boolean = !(isCreatePage || isListOwner); // Is save button disabled.
 
     async function handleSave(): Promise<void> {
-        if (auth) {
+        if (auth && auth.userId !== '') {
             handleUserSave();
         } else {
             handleGuestSave();
