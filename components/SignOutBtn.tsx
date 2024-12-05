@@ -15,7 +15,7 @@ export default function SignOutBtn({ userId }: { userId: string }) {
         <>
             {auth && auth.userId === userId && (
                 <button
-                    className='h-8 w-20 rounded-md bg-rose-500 text-base'
+                    className='h-8 w-20 rounded-md bg-rose-500 text-base hover:bg-rose-600'
                     onClick={async () => {
                         await signOut();
                         dispatch({ type: 'sign-out' });

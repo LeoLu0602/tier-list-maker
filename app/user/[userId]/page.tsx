@@ -17,17 +17,13 @@ export default async function Page({ params }: { params: { userId: string } }) {
 
     return (
         <>
-            <section className='flex h-20 items-center gap-8'>
+            <section className='flex items-center gap-8'>
                 <img
                     className='h-20 w-20 rounded-full'
                     src={userInfo?.avatarUrl ?? ''}
                 />
-                <section className='flex h-full flex-col items-start justify-between'>
-                    <h2 className='text-4xl font-bold'>
-                        {userInfo?.name ?? ''}
-                    </h2>
-                    <SignOutBtn userId={params.userId} />
-                </section>
+                <h1 className='text-4xl font-bold'>{userInfo?.name ?? ''}</h1>
+                <SignOutBtn userId={params.userId} />
             </section>
             <section className='mt-16 flex flex-wrap justify-between'>
                 {tierLists.map(({ id, title, preview }) => (
