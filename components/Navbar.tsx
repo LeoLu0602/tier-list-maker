@@ -17,16 +17,24 @@ export default function Navbar() {
 
                 <li>
                     {auth ? (
-                        <Link href={`/user/${auth.userId}`}>My Account</Link>
+                        auth.userId !== '' ? (
+                            <Link href={`/user/${auth.userId}`}>
+                                My Account
+                            </Link>
+                        ) : (
+                            <button
+                                className='text-base'
+                                onClick={async () => {
+                                    await signInWithGoogle(
+                                        window.location.origin
+                                    );
+                                }}
+                            >
+                                Sign in
+                            </button>
+                        )
                     ) : (
-                        <button
-                            className='text-base'
-                            onClick={async () => {
-                                await signInWithGoogle(window.location.origin);
-                            }}
-                        >
-                            Sign in
-                        </button>
+                        <></>
                     )}
                 </li>
             </ul>
