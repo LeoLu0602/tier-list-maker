@@ -21,7 +21,7 @@ export default function TierListBox({
             className={clsx({
                 'relative border-b-2 border-b-[#040404] pl-20':
                     tier !== 'not-rated',
-                'fixed bottom-0 left-0 overflow-scroll bg-black md:relative':
+                'fixed bottom-0 left-0 overflow-scroll bg-black md:relative md:bg-inherit':
                     tier === 'not-rated',
             })}
         >
