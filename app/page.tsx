@@ -1,6 +1,7 @@
 import { getAllCategories, getAllTemplates } from '@/app/lib/utils';
 import { TemplateType } from '@/types';
 import Template from '@/components/Template';
+import Category from '@/components/Category';
 
 export const fetchCache = 'force-no-store';
 
@@ -31,18 +32,8 @@ export default async function Page() {
                 Featured Templates
             </h3>
             {categories.map((categoryId) => (
-                <section>{categoryId}</section>
+                <Category id={categoryId} />
             ))}
-            <section className='flex gap-2 overflow-auto'>
-                {templates.map(({ id, poster, title }) => (
-                    <Template
-                        key={id}
-                        link={`/create/${id}`}
-                        poster={poster}
-                        title={title}
-                    />
-                ))}
-            </section>
         </>
     );
 }

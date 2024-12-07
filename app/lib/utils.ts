@@ -54,6 +54,29 @@ export async function getAllTemplates(): Promise<TemplateType[]> {
     );
 }
 
+export async function getTemplateByCategory(
+    categoryId: string
+): Promise<TemplateType[]> {
+    const { data, error } = await supabase
+        .from('template')
+        .select('*')
+        .eq('category', categoryId);
+
+    console.log(data);
+
+    if (error) {
+        console.error('Error: getTierListByCategory ', error);
+
+        return [];
+    }
+
+    return (
+        data.map(({ id, title, poster }) => {
+            return { id, title, poster };
+        }) ?? []
+    );
+}
+
 export async function getTemplateItems(
     templateId: string
 ): Promise<ItemType[]> {
