@@ -279,3 +279,15 @@ export async function retrieveScreenshotUrl(path: string): Promise<string> {
 
     return data.publicUrl;
 }
+
+export async function getAllCategories(): Promise<string[]> {
+    const { data, error } = await supabase.from('category').select('*');
+
+    if (error) {
+        console.error('Error: getAllCategories ', error);
+
+        return [];
+    }
+
+    return data.map(({ id }) => id);
+}

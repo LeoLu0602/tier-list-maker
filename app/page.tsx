@@ -1,10 +1,11 @@
-import { getAllTemplates } from '@/app/lib/utils';
+import { getAllCategories, getAllTemplates } from '@/app/lib/utils';
 import { TemplateType } from '@/types';
 import Template from '@/components/Template';
 
 export const fetchCache = 'force-no-store';
 
 export default async function Page() {
+    const categories: string[] = await getAllCategories();
     const templates: TemplateType[] = await getAllTemplates();
 
     return (
@@ -29,6 +30,9 @@ export default async function Page() {
             <h3 className='mb-4 text-xl font-bold text-white'>
                 Featured Templates
             </h3>
+            {categories.map((categoryId) => (
+                <section>{categoryId}</section>
+            ))}
             <section className='flex gap-2 overflow-auto'>
                 {templates.map(({ id, poster, title }) => (
                     <Template
