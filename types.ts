@@ -1,3 +1,8 @@
+export interface CategoryType {
+    id: string;
+    title: string;
+}
+
 export interface ItemType {
     id: string;
     url: string;

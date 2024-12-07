@@ -4,7 +4,13 @@ import {
     UserResponse,
 } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
-import { AuthType, ItemType, TemplateType, TierListType } from '@/types';
+import {
+    AuthType,
+    CategoryType,
+    ItemType,
+    TemplateType,
+    TierListType,
+} from '@/types';
 
 const SUPABASE_URL: string = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
 const SUPABASE_KEY: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
@@ -62,19 +68,15 @@ export async function getTemplateByCategory(
         .select('*')
         .eq('category', categoryId);
 
-    console.log(data);
-
     if (error) {
         console.error('Error: getTierListByCategory ', error);
 
         return [];
     }
 
-    return (
-        data.map(({ id, title, poster }) => {
-            return { id, title, poster };
-        }) ?? []
-    );
+    return data.map(({ id, title, poster }) => {
+        return { id, title, poster };
+    });
 }
 
 export async function getTemplateItems(
@@ -303,7 +305,7 @@ export async function retrieveScreenshotUrl(path: string): Promise<string> {
     return data.publicUrl;
 }
 
-export async function getAllCategories(): Promise<string[]> {
+export async function getAllCategories(): Promise<CategoryType[]> {
     const { data, error } = await supabase.from('category').select('*');
 
     if (error) {
@@ -312,5 +314,7 @@ export async function getAllCategories(): Promise<string[]> {
         return [];
     }
 
-    return data.map(({ id }) => id);
+    return data.map(({ id, title }) => {
+        return { id, title };
+    });
 }

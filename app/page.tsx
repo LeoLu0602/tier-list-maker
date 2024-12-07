@@ -1,13 +1,11 @@
-import { getAllCategories, getAllTemplates } from '@/app/lib/utils';
-import { TemplateType } from '@/types';
-import Template from '@/components/Template';
+import { getAllCategories } from '@/app/lib/utils';
+import { CategoryType } from '@/types';
 import Category from '@/components/Category';
 
 export const fetchCache = 'force-no-store';
 
 export default async function Page() {
-    const categories: string[] = await getAllCategories();
-    const templates: TemplateType[] = await getAllTemplates();
+    const categories: CategoryType[] = await getAllCategories();
 
     return (
         <>
@@ -28,11 +26,8 @@ export default async function Page() {
                 </a>
                 .
             </p>
-            <h3 className='mb-4 text-xl font-bold text-white'>
-                Featured Templates
-            </h3>
-            {categories.map((categoryId) => (
-                <Category id={categoryId} />
+            {categories.map(({ id, title }) => (
+                <Category id={id} title={title} />
             ))}
         </>
     );
