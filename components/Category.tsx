@@ -10,7 +10,7 @@ export default async function Category({ id, title }: CategoryType) {
     return (
         <section className='my-8'>
             <h2 className='mb-4 text-xl font-bold text-white'>
-                {title === '' ? 'More' : 'Featured'}
+                {title === '' ? 'More ' : 'Featured '}
                 <span className='text-[#7fbfff]'>{title}</span> Templates
             </h2>
             <section className='flex gap-2 overflow-auto'>
