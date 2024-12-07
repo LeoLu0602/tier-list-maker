@@ -18,9 +18,11 @@ export default function TierListBox({
 }) {
     return (
         <section
-            className={clsx('relative', {
-                'border-b-2 border-b-[#040404] pl-20': tier !== 'not-rated',
-                'overflow-scroll bg-black': tier === 'not-rated',
+            className={clsx({
+                'relative border-b-2 border-b-[#040404] pl-20':
+                    tier !== 'not-rated',
+                'fixed bottom-0 left-0 overflow-scroll bg-black md:relative':
+                    tier === 'not-rated',
             })}
         >
             {tier === 'not-rated' ? (
