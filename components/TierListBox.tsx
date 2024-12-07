@@ -21,12 +21,12 @@ export default function TierListBox({
             className={clsx({
                 'relative border-b-2 border-b-[#040404] pl-20':
                     tier !== 'not-rated',
-                'fixed bottom-0 left-0 overflow-scroll bg-black md:relative md:bg-inherit':
+                'fixed bottom-0 left-0 w-full overflow-scroll bg-black md:relative md:bg-inherit':
                     tier === 'not-rated',
             })}
         >
             {tier === 'not-rated' ? (
-                <section className='block min-w-fit py-2 text-center font-bold md:hidden'>
+                <section className='block py-2 text-center font-bold md:hidden'>
                     &lt;Touch here to swipe&gt;
                 </section>
             ) : (

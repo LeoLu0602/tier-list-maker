@@ -267,18 +267,15 @@ export default function TierList({
                     disabled={disabled}
                 />
             </section>
-            {notRated.length > 0 && (
-                <section className='mb-8'>
-                    <TierListBox
-                        items={notRated}
-                        setItems={setNotRated}
-                        tier='not-rated'
-                        color=''
-                        disabled={disabled}
-                    />
-                </section>
-            )}
-
+            <section className='mb-8'>
+                <TierListBox
+                    items={notRated}
+                    setItems={setNotRated}
+                    tier='not-rated'
+                    color=''
+                    disabled={disabled}
+                />
+            </section>
             {isProcessing && (
                 <section className='flex justify-center'>Processing...</section>
             )}
