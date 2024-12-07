@@ -179,7 +179,10 @@ export default function TierList({
         }
 
         try {
-            const dataUrl: string = await toJpeg(ref.current);
+            const dataUrl: string = await toJpeg(ref.current, {
+                width: 1024,
+                height: 1024,
+            });
             const res: Response = await fetch(dataUrl);
             const blob: Blob = await res.blob();
 
