@@ -26,7 +26,7 @@ export default async function Page() {
                 </a>
                 .
             </p>
-            <h3 className='my-4 text-xl font-bold text-white'>
+            <h3 className='mb-4 text-xl font-bold text-white'>
                 Featured Templates
             </h3>
             <section className='flex gap-2 overflow-auto'>
