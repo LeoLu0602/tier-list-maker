@@ -20,19 +20,25 @@ export default function TierListBox({
         <section
             className={clsx('relative', {
                 'border-b-2 border-b-[#040404] pl-20': tier !== 'not-rated',
+                'overflow-scroll bg-black': tier === 'not-rated',
             })}
         >
-            {tier !== 'not-rated' && (
-                <div
+            {tier === 'not-rated' ? (
+                <section className='block min-w-fit py-2 text-center font-bold md:hidden'>
+                    &lt;Touch here to swipe&gt;
+                </section>
+            ) : (
+                <section
                     className='absolute left-0 top-0 flex h-full w-20 items-center justify-center text-black'
                     style={{ backgroundColor: color }}
                 >
                     {tier}
-                </div>
+                </section>
             )}
             <ReactSortable
-                className={clsx('box-border flex min-h-24 flex-wrap', {
-                    'bg-[#1a1a17]': tier !== 'not-rated',
+                className={clsx('box-border flex min-h-24', {
+                    'flex-wrap bg-[#1a1a17]': tier !== 'not-rated',
+                    'flex-nowrap md:flex-wrap': tier === 'not-rated',
                 })}
                 list={items}
                 setList={setItems}
